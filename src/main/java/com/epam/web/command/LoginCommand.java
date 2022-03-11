@@ -1,12 +1,16 @@
 package com.epam.web.command;
 
+import com.epam.web.dao.DaoHelperFactory;
+import com.epam.web.entity.Category;
 import com.epam.web.entity.User;
 import com.epam.web.exception.ServiceException;
+import com.epam.web.service.CategoryServiceImpl;
 import com.epam.web.service.UserServiceImpl;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -17,6 +21,7 @@ public class LoginCommand implements Command {
 
     private final UserServiceImpl service;
 
+
     public LoginCommand(UserServiceImpl service) {
         this.service = service;
     }
@@ -26,12 +31,15 @@ public class LoginCommand implements Command {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         Optional<User> user = service.login(login, password);
+        CategoryServiceImpl categoryService = new CategoryServiceImpl(new DaoHelperFactory());
+        List<Category> categories = categoryService.getAll();
         CommandResult result;
         if (user.isPresent()) {
             HttpSession session = req.getSession();
             User registeredUser = user.get();
-            req.getSession().setAttribute("userId", registeredUser.getId());
-            req.getSession().setAttribute("isAdmin", registeredUser.isAdmin());
+            session.setAttribute("userId", registeredUser.getId());
+            session.setAttribute("isAdmin", registeredUser.isAdmin());
+            session.setAttribute("categories", categories);
             result  = CommandResult.redirect(MAIN_PAGE);
 
         } else {

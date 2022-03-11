@@ -1,23 +1,16 @@
 package com.epam.web.connection;
 
 import com.epam.web.Controller;
-import com.epam.web.exception.ServiceException;
+import com.epam.web.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.ArrayDeque;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
-
-    private static final Integer POOL_SIZE = 20;
-    private static final String URL = "jdbc:mysql://localhost:3306/auction";
-    private static final String LOGIN = "root";
-    private static final String PASSWORD = "123qwe123";
 
     private static ConnectionPool instance;
 
@@ -25,30 +18,23 @@ public class ConnectionPool {
     private Queue<ProxyConnection> connectionsInUse;
     private ReentrantLock connectionLock = new ReentrantLock();
 
+    private ConnectionFactory connectionFactory = new ConnectionFactory();
+
     private final Logger LOGGER = LogManager.getLogger(Controller.class);
 
     private ConnectionPool() {
-        connectionsAvailable = new ArrayDeque<>(POOL_SIZE);
-        connectionsInUse = new ArrayDeque<>(POOL_SIZE);
+        int poolSize = connectionFactory.getPoolSize();
+        connectionsAvailable = new ArrayDeque<>(poolSize);
+        connectionsInUse = new ArrayDeque<>(poolSize);
     }
 
-    private void init() throws ServiceException {
-        for (int i = 1; i <= POOL_SIZE; i++) {
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/auction",
-                        "root", "123qwe123");
-                ProxyConnection proxyConnection = new ProxyConnection(connection, this);
-                connectionsAvailable.offer(proxyConnection);
-                LOGGER.info("Connection " + i + " added to pool.");
-            } catch (SQLException|ClassNotFoundException e) {
-                LOGGER.error("Error creating DB connection", e);
-                throw new ServiceException(e);
-            }
-        }
+    private void init() throws DaoException {
+
+        List<ProxyConnection> connections = connectionFactory.create(this);
+        connectionsAvailable.addAll(connections);
     }
 
-    public static ConnectionPool getInstance() throws ServiceException {
+    public static ConnectionPool getInstance() throws DaoException {
         ConnectionPool localInstance = instance;
         if (localInstance == null) {
             synchronized (ConnectionPool.class) {

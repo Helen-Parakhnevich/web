@@ -1,5 +1,6 @@
 package com.epam.web.mapper;
 
+import com.epam.web.entity.Category;
 import com.epam.web.entity.Identifiable;
 import com.epam.web.entity.User;
 import com.epam.web.entity.Lot;
@@ -16,6 +17,8 @@ public interface RowMapper<T extends Identifiable> {
         switch (table){
             case User.TABLE:
                 return new UserRowMapper();
+            case Category.TABLE:
+                return new CategoryRowMapper();
             case Lot.TABLE:
             case Bid.TABLE:
             default:

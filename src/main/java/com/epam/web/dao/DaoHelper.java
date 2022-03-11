@@ -18,6 +18,14 @@ public class DaoHelper implements AutoCloseable {
         return new UserDaoImpl(connection);
     }
 
+    public LotDao createLotDao() {
+        return new LotDaoImpl(connection);
+    }
+
+    public CategoryDao createCategoryDao() {
+        return new CategoryDaoImpl(connection);
+    }
+
     @Override
     public void close() throws Exception {
         connection.close();
