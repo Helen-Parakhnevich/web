@@ -20,6 +20,7 @@ public interface RowMapper<T extends Identifiable> {
             case Category.TABLE:
                 return new CategoryRowMapper();
             case Lot.TABLE:
+                return new LotRowMapper();
             case Bid.TABLE:
             default:
                 throw new IllegalArgumentException("Unknown table = " + table);

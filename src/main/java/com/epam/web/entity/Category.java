@@ -11,7 +11,7 @@ public class Category extends Entity {
     private String name;
 
     public Category(Long id, String name) {
-        this.id = id;
+        super(id);
         this.name = name;
     }
 

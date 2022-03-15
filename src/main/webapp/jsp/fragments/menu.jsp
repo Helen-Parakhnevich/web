@@ -7,19 +7,23 @@
                 <div class="dropdown-menu">
                     <ul>
                         <li>
-                            <a href="${pageContext.request.contextPath}/controller?command=catalog">Direct auctions</a>
+                            <a href="${pageContext.request.contextPath}/controller?command=direct_lot_by_category">Direct auctions</a>
                          </li>
-                        <li><a href="#">Revers auctions</a></li>
-                        <li><a href="#">Planned lots</a></li>
+                        <li><a href="${pageContext.request.contextPath}/controller?command=reverse_lot">Revers auctions</a></li>
+                        <%--<li><a href="#">Planned lots</a></li>--%>
                         <li><a href="#">Recently sold</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="dropdown"><a>BUY</a>
+            <div class="dropdown"><a href="${pageContext.request.contextPath}/controller?command=direct_lot_by_category">BUY</a>
                 <div class="dropdown-menu">
                     <ul>
                     <c:forEach items="${sessionScope.categories}" var="category">
-                    <li><a href="#">${category.name}</a></li>
+                    <%--<li><a href="#">${category.name}</a></li>--%>
+                    <form class="category" method="post" action="${pageContext.request.contextPath}/controller?command=direct_lot_by_category">
+                          <input  name="categoryId" value="${category.id}" type="hidden">
+                           <button class="button" id="button${loop.index}" type="submit">${category.name}</button>
+                     </form>
                     </c:forEach>
                      <%--   <li><a href="#">Motor vehicles</a></li>
                         <li><a href="#">Work of art</a></li>
@@ -62,6 +66,40 @@
             </div>
         </div>
     </nav>
+
+    <style>
+      .dropdown a {
+         text-decoration: none;
+         color: black;
+       }
+        .button {
+            display: block;
+            color: black;
+            white-space: nowrap;
+            padding: 14px 16px;
+            text-decoration: none;
+            text-align: left;
+            font-size: 12px;
+            width: 100%;
+            border: none;
+            background: none;
+            text-transform: uppercase;
+            height: auto;
+            list-style-type: none;
+
+            background-color:transparent;
+            height: auto;
+            min-width: 1rem;
+         }
+
+         .button:hover {
+             background-color: rgb(221, 221, 221);
+         }
+        .category{
+            margin: 0;
+            padding: 0;
+          }
+    </style>
 
 
 

@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 
 public class LotRowMapper implements RowMapper {
 
@@ -40,6 +41,10 @@ public class LotRowMapper implements RowMapper {
         String title = resultSet.getString(Lot.TITLE);
         //String description = resultSet.getString(Lot.DESCRIPTION);
         Blob imageData = resultSet.getBlob(Lot.IMAGE);
+        Long bidUserId = resultSet.getLong(Lot.BID_USER_ID);
+        BigDecimal bidSum = resultSet.getBigDecimal(Lot.BID_SUM);
+        String bidUserFirstName = resultSet.getString(Lot.BID_USER_FIRST_NAME);
+        String bidUserLastName = resultSet.getString(Lot.BID_USER_LAST_NAME);
 
         String pattern = "yyyy-MM-dd'T'HH:mm:ss";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -54,6 +59,11 @@ public class LotRowMapper implements RowMapper {
         lot.setUserId(userId);
         lot.setPaid(isPaid);
         lot.setImg(imageData);
+        lot.setImgBase64(Base64.getEncoder().encodeToString(imageData.getBytes(1, (int) imageData.length())));
+        lot.setBidUserId(bidUserId);
+        lot.setBidSum(bidSum);
+        lot.setBidUserFirstName(bidUserFirstName);
+        lot.setBidUserLastName(bidUserLastName);
         //lot.setDescription(description);
 
         return lot;

@@ -7,10 +7,11 @@
 <head>
     <link rel="stylesheet" href="../static/styles/style.css">
     <link rel="stylesheet" href="../static/styles/style_catalog.css">
-    <script src="../scripts/timer.js"></script>
+    <script type="text/javascript" src="../static/scripts/timer.js"></script>
 </head>
 
 <body>
+
     <header class="top-header">
         <jsp:include page="./fragments/header.jsp" />
     </header>
@@ -18,114 +19,72 @@
     <nav class="top-nav">
         <jsp:include page="./fragments/menu.jsp" />
     </nav>
-    <jsp:include page="./fragments/filter_category.jsp" />
+    <c:if test="${type=='direct'}">
+      <jsp:include page="./fragments/filter_category.jsp" />
+    </c:if>
     <div class="grid">
-       <c:forEach items="${lots}" var="item">
+       <c:forEach items="${lots}" var="item" varStatus="loop">
             <div class="item">
                 <div class="img-container">
-                    <p><img src="data:image/jpeg;base64,${item.img}" width=100% height=100%></p>
+                    <p><img src="data:image/jpeg;base64,${item.imgBase64}" width=100% height=100%></p>
                 </div>
                 <div class="text-container">
-                    <p class="item-header">${item.title}</p>
-                    <p>CURRENT BID: <span style="font-weight:bold;"> $55,000 </span></p>
-                    <p class="end" hidden>ENDS: <span id="date_end" style="font-weight:bold;">${item.stringDateEnd}</span></p>
-                    <p>ENDS IN: <span id="timer" style="font-weight:bold;"></span></p>
+                  <form method="post" action="${pageContext.request.contextPath}/controller?command=show_lot">
+                     <input type="hidden" name="lotId" value="${item.id}">
+                     <button class="item-header" type="submit">${item.title}</button>
+                  </form>
+                    <c:choose>
+                      <c:when test="${empty item.bidSum}" >
+                        <p>START PRICE: <span style="font-weight:bold;">$<fmt:formatNumber maxFractionDigits = "0" value="${item.startPrice}"/></span></p>
+                      </c:when>
+                      <c:otherwise>
+                        <p>CURRENT BID: <span style="font-weight:bold;">$<fmt:formatNumber maxFractionDigits = "0" value="${item.bidSum}"/> from ${item.bidUserFirstName} ${item.bidUserLastName}</span></p>
+                      </c:otherwise>
+                    </c:choose>
+                    <p class="end" hidden>ENDS: <span id="date_end${loop.index}" style="font-weight:bold;">${item.stringDateEnd}</span></p>
+                    <p>ENDS IN: <span id="timer${loop.index}" style="font-weight:bold;"></span></p>
                 </div>
             </div>
         </c:forEach>
-        <div class="item">
-            <div class="img-container">
-                <p><img src="..static/img/1967Camaro.jpg" width=100% height=100%></p>
-            </div>
-            <div class="text-container">
-                <p class="item-header">1967 Chevrolet Camaro coupe</p>
-                <p>CURRENT BID: <span style="font-weight:bold;"> $55,000 </span></p>
-                <p>END IN: <span style="font-weight:bold;"> 7 days</span></p>
-            </div>
-        </div>
-        <div class="item">
-            <div class="img-container">
-                <p><img src="..static/img/1958Porsche356.jpeg" width=100% height=100%></p>
-            </div>
-            <div class="text-container">
-                <p class="item-header">1958 Porsche 356A Sunroof Coupe</p>
-                <p>CURRENT BID: <span style="font-weight:bold;"> $115,000 </span></p>
-                <p>END IN: <span style="font-weight:bold;"> 22 hours</span></p>
-            </div>
-        </div>
-        <div class="item">
-            <div class="img-container">
-                <p><img src="../static/img/1969FordBronco.jpg" width=100% height=100%></p>
-            </div>
-            <div class="text-container">
-                <p class="item-header">1969 Ford Bronco Sport</p>
-                <p>CURRENT BID: <span style="font-weight:bold;"> $58,000 </span></p>
-                <p>END IN: <span style="font-weight:bold;"> 1 day</span></p>
-            </div>
-        </div>
-        <div class="item">
-            <div class="img-container">
-                <p><img src="data:image/png;base64,<?=base64_encode(${img});?>"/> width=100% height=100%></p>
-            </div>
-            <div class="text-container">
-                <p class="item-header">1972 Volkswagen Type 2 Campmobile</p>
-                <p>CURRENT BID: <span style="font-weight:bold;"> $25,000 </span></p>
-                <p>END IN: <span style="font-weight:bold;"> 2 days</span></p>
-            </div>
-        </div>
-        <div class="item">
-            <div class="img-container">
-                <p><img src="../static/img/1972Porsche911E.jpeg" width=100% height=100%></p>
-            </div>
-            <div class="text-container">
-                <p class="item-header">1972 Porsche 911E Coupe</p>
-                <p>CURRENT BID: <span style="font-weight:bold;"> $78,500 </span></p>
-                <p>END IN: <span style="font-weight:bold;"> 15 hours</span></p>
-            </div>
-        </div>
-        <div class="item">
-            <div class="img-container">
-                <p><img src="../static/img/1993ChevroletCorvette.jpg" width=100% height=100%></p>
-            </div>
-            <div class="text-container">
-                <p class="item-header">1993 Chevrolet Corvette ZR-1</p>
-                <p>CURRENT BID: <span style="font-weight:bold;"> $19,100 </span></p>
-                <p>END IN: <span style="font-weight:bold;"> 10 hours</span></p>
-            </div>
-        </div>
+
     </div>
 
 <script>
 
+    document.addEventListener('DOMContentLoaded', () => {
 
+    for (let i=0; i<"${lots.size()}"; i++) {
 
-    for (var i=1, b; b = document.getElementById("date_end"); i++) {
-                b.id = b.id + "_" +i;
-        }
+        const currentDeadLine = new Date(String(document.getElementById("date_end"+ i).textContent));
 
-        for (var i=1, b; b = document.getElementById("timer"); i++) {
-                    b.id = b.id + "_" +i;
-        }
+        new CountdownTimer(currentDeadLine, (timer)=> {
 
-    var countDownDate = Date.parse(document.getElementById('date_end_1').innerHTML);
+            document.getElementById("timer"+ i).innerHTML = timer.days + ":" + timer.hours + ":" + timer.minutes + ":" + timer.seconds ;
 
-    var countDownFunction = setInterval(function () {
-    var now = new Date().getTime();
-    var distance = countDownDate - now;
-
-    var days = Math.floor(distance/(1000*60*60*24));
-    var hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
-    var minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
-    var seconds = Math.floor((distance % (1000*60)) / (1000));
-
-    document.getElementById("timer_1").innerHTML = days + "d " + hours + "h " +  minutes + "m " + seconds + "s";
-     if (distance<0) {
-        clearInterval(countDownFunction);
-        document.getElementById("timer_1").innerHTML = "completed";
-     }
-    }, 1000)
-
+          }, () => {
+            document.getElementById("timer"+ i).innerHTML= 'ENDED';
+          });
+    }
+    });
+    console.log("${type}");
     </script>
+
+
+    <style>
+             .item-header {
+                 border: none;
+                 text-decoration: underline;
+                 background-color: white;
+
+             }
+
+             .item-header {
+
+                 cursor: pointer;
+
+             }
+
+    </style>
 
 </body>
 

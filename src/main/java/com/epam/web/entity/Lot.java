@@ -26,7 +26,12 @@ public class Lot extends Entity {
     public static final String IS_PAID = "is_paid";
     public static final String TITLE = "title";
     public static final String DESCRIPTION = "description";
-    public static final String IMAGE = "img";
+    public static final String IMAGE = "image";
+    public static final String BID_ID = "bid_id";
+    public static final String BID_SUM = "bid_sum";
+    public static final String BID_USER_ID = "bid_user_id";
+    public static final String BID_USER_FIRST_NAME = "bid_user_first_name";
+    public static final String BID_USER_LAST_NAME = "bid_user_last_name";
 
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
@@ -43,9 +48,15 @@ public class Lot extends Entity {
     private String title;
     private String description;
     private Blob img;
+    private String imgBase64;
+    private Long bidId;
+    private BigDecimal bidSum;
+    private Long bidUserId;
+    private String bidUserFirstName;
+    private String bidUserLastName;
 
     public Lot(Long id, Long categoryId, LotType type, String title) {
-        this.id = id;
+        super(id);
         this.type = type;
         this.categoryId = categoryId;
         this.title = title;

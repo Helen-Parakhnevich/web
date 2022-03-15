@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Optional;
 
 public class LotServiceImpl implements LotService {
 
@@ -23,12 +24,49 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
-    public List<Lot> getAllDirect() throws ServiceException {
+    public List<Lot> getCurrentByType(LotType type) throws ServiceException {
 
         try (DaoHelper daoHelper= daoHelperFactory.create()) {
             LotDao lotDao = daoHelper.createLotDao();
-            List<Lot> directLot= lotDao.getCurrentByType(LotType.DIRECT);
+            List<Lot> directLot= lotDao.getCurrentByType(type);
             return directLot;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<Lot> getDirectByCategory(long id) throws ServiceException {
+
+        try (DaoHelper daoHelper= daoHelperFactory.create()) {
+            LotDao lotDao = daoHelper.createLotDao();
+            List<Lot> directLot= lotDao.getDirectByCategory(id);
+            return directLot;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public Optional<Lot> getById(long id) throws ServiceException {
+        try (DaoHelper daoHelper= daoHelperFactory.create()) {
+            LotDao lotDao = daoHelper.createLotDao();
+            Optional<Lot> lot = lotDao.getById(id);
+            return lot;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public Optional<Lot> getByIdWithBid(long id) throws ServiceException {
+        try (DaoHelper daoHelper= daoHelperFactory.create()) {
+            LotDao lotDao = daoHelper.createLotDao();
+            Optional<Lot> lot = lotDao.getByIdWithBid(id);
+            return lot;
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             throw new ServiceException(e);

@@ -10,13 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CatalogCommand implements Command {
-
+public class DirectLotByCategory implements Command {
     private static final String CATALOG_PAGE = "jsp/catalog.jsp";
 
     private final LotServiceImpl service;
 
-    public CatalogCommand(LotServiceImpl service) {
+    public DirectLotByCategory(LotServiceImpl service) {
         this.service = service;
     }
 
@@ -36,7 +35,7 @@ public class CatalogCommand implements Command {
             lots = service.getCurrentByType(LotType.DIRECT);
         }
         req.getSession().setAttribute("lots", lots);
+        req.getSession().setAttribute("type", "direct");
         return CommandResult.redirect(CATALOG_PAGE);
     }
 }
-

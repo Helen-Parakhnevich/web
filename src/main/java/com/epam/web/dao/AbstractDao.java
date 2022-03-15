@@ -65,6 +65,13 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
     }
 
     @Override
+    public Optional<T> getById(long id) throws DaoException{
+        String table = getTableName();
+        RowMapper<T> mapper = (RowMapper<T>) RowMapper.create(table);
+        return executeForSingleResult("SELECT * FROM " + table + " WHERE " + table + ".id = " + id , mapper);
+    }
+
+    @Override
     public void save(T item) throws DaoException {
         Map<String, Object> fields = getFields(item);
         String query = item.getId() == null ? generateInsertQuery(fields) : generateUpdateQuery(fields);
