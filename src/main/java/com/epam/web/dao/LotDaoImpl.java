@@ -1,5 +1,6 @@
 package com.epam.web.dao;
 
+import com.epam.web.connection.ProxyConnection;
 import com.epam.web.entity.Category;
 import com.epam.web.entity.Lot;
 import com.epam.web.entity.LotStatus;
@@ -8,7 +9,8 @@ import com.epam.web.exception.DaoException;
 import com.epam.web.mapper.LotRowMapper;
 import com.epam.web.mapper.RowMapper;
 
-import java.sql.Connection;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -28,8 +30,11 @@ public class LotDaoImpl extends AbstractDao<Lot> implements LotDao {
     public static final String USER_ID = "user_id";
     public static final String IS_PAID = "is_paid";
 
+    private static final String CREATE_LOT = "insert into lot (category_id, type, title, start_price, date_start, date_end, duration, user_id)" +
+            "values(?, ?, ?, ?, ?, ?, ?, ?)";
+
     private static final String GET_LOT_WITH_MAX_BID_PART_1 = "WITH lot_max_bid AS ( " +
-            "SELECT " +
+           // "SELECT " +
             "lots.id as lot_id," +
             "lots.title AS title," +
             "lots.date_start AS date_start," +
@@ -40,7 +45,7 @@ public class LotDaoImpl extends AbstractDao<Lot> implements LotDao {
             "lots.status AS status," +
             "lots.user_id AS user_id," +
             "lots.is_paid AS is_paid," +
-            "lots.img AS image," +
+            "lots.img AS img," +
             "MAX(sum_bid) AS sum_bid " +
             "FROM auction.lot AS lots " +
             "LEFT JOIN " +
@@ -59,7 +64,7 @@ public class LotDaoImpl extends AbstractDao<Lot> implements LotDao {
             "lot_max_bid.status AS status," +
             "lot_max_bid.user_id AS user_id," +
             "lot_max_bid.is_paid AS is_paid," +
-            "lot_max_bid.image AS image," +
+            "lot_max_bid.img AS img," +
             "lot_max_bid.sum_bid AS bid_sum," +
             "bids.id AS bid_id," +
             "bids.user_id AS bid_user_id," +
@@ -69,7 +74,7 @@ public class LotDaoImpl extends AbstractDao<Lot> implements LotDao {
             "LEFT JOIN auction.bid as bids " +
             "ON lot_max_bid.sum_bid = bids.sum_bid AND lot_max_bid.lot_id=bids.lot_id " +
             "LEFT JOIN auction.user AS users " +
-            "ON users.id=bids.user_id";
+            "ON users.id=bids.user_id" ;
 
     private static final String CONDITION_BY_ID = "WHERE lots.id =?";
     private static final String CONDITION_BY_TYPE_BY_STATUS_BY_CATEGORY = "WHERE lots.date_start <= curdate() " +
@@ -91,40 +96,12 @@ public class LotDaoImpl extends AbstractDao<Lot> implements LotDao {
             GET_LOT_WITH_MAX_BID_PART_1 + CONDITION_BY_TYPE_BY_STATUS + GET_LOT_WITH_MAX_BID_PART_2;
 
 
-    private static final String GET_CURRENT_LOT_BY_TYPE_BY_CATEGORY_WITH_MAX_BID = "WITH lot_max_bid AS (\n" +
-            "SELECT \n" +
-            "\tlots.id as lot_id,\n" +
-            "    lots.title AS title,\n" +
-            "    lots.date_end AS date_end,\n" +
-            "    MAX(sum_bid) AS sum_bid \n" +
-            "FROM auction.lot AS lots\n" +
-            "LEFT JOIN \n" +
-            "auction.bid AS bids \n" +
-            "ON bids.lot_id = lots.id\n" +
-            "WHERE lots.date_start <= curdate() AND lots.date_end >= curdate() AND lots.type = ? AND lots.status = ?  AND category_id = ?\n" +
-            "GROUP BY lots.id\n" +
-            ")\n" +
-            "SELECT \n" +
-            "\tlot_max_bid.lot_id AS id,\n" +
-            "    lot_max_bid.title AS title,\n" +
-            "    lot_max_bid.date_end AS date_end,\n" +
-            "    lot_max_bid.sum_bid AS bid_sum,\n" +
-            "    bids.id AS bid_id,\n" +
-            "    bids.user_id AS bid_user_id,\n" +
-            "    users.first_name AS bid_user_first_name,\n" +
-            "    users.last_name AS bid_user_last_name\n" +
-            "FROM auction.bid as bids\n" +
-            "INNER JOIN lot_max_bid\n" +
-            "ON lot_max_bid.sum_bid = bids.sum_bid AND lot_max_bid.lot_id=bids.lot_id\n" +
-            "inner join auction.user AS users\n" +
-            "ON users.id=bids.user_id";
-
-    public LotDaoImpl(Connection connection) {
+    public LotDaoImpl(ProxyConnection connection) {
         super(connection, new LotRowMapper(), TABLE);
     }
 
     @Override
-    public Optional<Lot> getByIdWithBid(long id) throws DaoException {
+    public Optional<Lot> getByIdWithBid(Long id) throws DaoException {
         return executeForSingleResult(GET_LOT_BY_ID_WITH_BID, new LotRowMapper(), id);
     }
 
@@ -134,10 +111,26 @@ public class LotDaoImpl extends AbstractDao<Lot> implements LotDao {
     }
 
     @Override
-    public List<Lot> getDirectByCategory(long id) throws DaoException {
+    public List<Lot> getDirectByCategory(Long id) throws DaoException {
         return executeQuery(GET_CURRENT_WITH_MAX_BID_LOT_BY_TYPE_BY_STATUS_BY_CATEGORY,
                              new LotRowMapper(), LotType.DIRECT.getTitle(), LotStatus.CURRENT.getTitle(), id);
     }
+
+    @Override
+    public boolean create(Lot lot) throws DaoException {
+        LotType type = lot.getType();
+        Long categoryId = lot.getCategoryId();
+        String title = lot.getTitle();
+        Timestamp dateStart = lot.getDateStart();
+        Timestamp dateEnd = lot.getDateStart();
+        Integer duration = lot.getDuration();
+        BigDecimal startPrice = lot.getStartPrice();
+        Long userId = lot.getUserId();
+        //String description = lot.getDescription();
+        executeForSingleResult(CREATE_LOT, new LotRowMapper(), categoryId, type, title, startPrice, dateStart, dateEnd, duration, userId);
+        return true;
+    }
+
 
     @Override
     public List<Lot> getReversByCategory(Category category) throws DaoException {
@@ -165,13 +158,8 @@ public class LotDaoImpl extends AbstractDao<Lot> implements LotDao {
     }
 
     @Override
-    public Optional<Lot> getById(long id) throws DaoException {
+    public Optional<Lot> getById(Long id) throws DaoException {
         return super.getById(id);
-    }
-
-    @Override
-    public Optional<Lot> create() throws DaoException {
-        return Optional.empty();
     }
 
     @Override

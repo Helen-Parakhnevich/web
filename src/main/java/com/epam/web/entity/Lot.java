@@ -19,14 +19,14 @@ public class Lot extends Entity {
     public static final String TYPE = "type";
     public static final String DATE_START = "date_start";
     public static final String DATE_END = "date_end";
-    public static final String DURATION = "date_end";
+    public static final String DURATION = "duration";
     public static final String START_PRICE = "start_price";
     public static final String STATUS = "status";
     public static final String USER_ID = "user_id";
     public static final String IS_PAID = "is_paid";
     public static final String TITLE = "title";
     public static final String DESCRIPTION = "description";
-    public static final String IMAGE = "image";
+    public static final String IMAGE = "img";
     public static final String BID_ID = "bid_id";
     public static final String BID_SUM = "bid_sum";
     public static final String BID_USER_ID = "bid_user_id";
@@ -42,9 +42,10 @@ public class Lot extends Entity {
     private Timestamp dateStart;
     private Timestamp dateEnd;
     private String stringDateEnd;
+    private Integer duration;
     private BigDecimal startPrice;
     private Long userId;
-    private boolean isPaid;
+    private Boolean isPaid;
     private String title;
     private String description;
     private Blob img;

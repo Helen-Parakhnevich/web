@@ -2,6 +2,7 @@ package com.epam.web.command;
 
 import com.epam.web.dao.DaoHelperFactory;
 import com.epam.web.exception.ServiceException;
+import com.epam.web.service.BidServiceImpl;
 import com.epam.web.service.LotServiceImpl;
 import com.epam.web.service.UserServiceImpl;
 
@@ -21,12 +22,14 @@ public class CommandFactory {
                 return new ReversLot(new LotServiceImpl(daoHelperFactory));
             case "show_lot":
                 return new ShowLotCommand(new LotServiceImpl(daoHelperFactory));
+            case "make_bid":
+                return new CreateBidCommand(new BidServiceImpl(daoHelperFactory));
             case "some_page":
                 return new ShowPageCommand("some_page");
-            case "en":
-            case "ru":
-            case "by":
-                return new LanguageCommand(command);
+            case "language":
+                return new LanguageCommand();
+//            case "back":
+//                return new BackCommand();
             default:
                 throw new IllegalArgumentException("Unknown command = " + command);
         }

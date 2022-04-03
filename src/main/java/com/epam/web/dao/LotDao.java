@@ -10,10 +10,11 @@ import java.util.Optional;
 
 public interface LotDao {
 
-    Optional<Lot> getById(long id) throws DaoException;
-    Optional<Lot> getByIdWithBid(long id) throws DaoException;
+    boolean create(Lot lot) throws DaoException;
+    Optional<Lot> getById(Long id) throws DaoException;
+    Optional<Lot> getByIdWithBid(Long id) throws DaoException;
     List<Lot> getCurrentByType(LotType type) throws DaoException;
-    List<Lot> getDirectByCategory(long id) throws DaoException;
+    List<Lot> getDirectByCategory(Long id) throws DaoException;
     List<Lot> getReversByCategory(Category category) throws DaoException;
     List<Lot> getSold(Category category) throws DaoException;
 }

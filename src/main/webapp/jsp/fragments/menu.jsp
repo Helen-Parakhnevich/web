@@ -2,8 +2,12 @@
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="content"/>
+
+<html>
         <div class="top-nav">
-            <div class="dropdown"><a>AUCTIONS</a>
+            <div class="dropdown"><a><fmt:message key="menu.auctions"/></a>
                 <div class="dropdown-menu">
                     <ul>
                         <li>
@@ -19,16 +23,11 @@
                 <div class="dropdown-menu">
                     <ul>
                     <c:forEach items="${sessionScope.categories}" var="category">
-                    <%--<li><a href="#">${category.name}</a></li>--%>
                     <form class="category" method="post" action="${pageContext.request.contextPath}/controller?command=direct_lot_by_category">
                           <input  name="categoryId" value="${category.id}" type="hidden">
                            <button class="button" id="button${loop.index}" type="submit">${category.name}</button>
                      </form>
                     </c:forEach>
-                     <%--   <li><a href="#">Motor vehicles</a></li>
-                        <li><a href="#">Work of art</a></li>
-                        <li><a href="#">Antiques</a></li>
-                        <li><a href="#">Model cars</a></li> --%>
                     </ul>
                 </div>
             </div>
@@ -53,19 +52,23 @@
                 </div>
             </div>
             <div class="top-nav-left">
-                <a href="${pageContext.request.contextPath}/controller?command=logout" class="login">Log Out</a>
-                <div class="dropdown"><a ${language}></a>
+                <a href="${pageContext.request.contextPath}/controller?command=logout" class="login"><fmt:message key="menu.log-out"/></a>
+                <div class="dropdown"><a>${language}</a>
                     <div class="dropdown-menu">
-                        <ul class="language">
-                            <li><a href="${pageContext.request.contextPath}/controller?command=en">en</a></li>
-                            <li><a href="${pageContext.request.contextPath}/controller?command=by">by</a></li>
-                            <li><a href="${pageContext.request.contextPath}/controller?command=ru">ru</a></li>
+                        <ul>
+                        <form class="language" method="post" action="${pageContext.request.contextPath}/controller?command=language">
+                           <li><button class="button" type="submit" name="language" value="en_US">en</button></li>
+                           <li><button class="button" type="submit" name="language" value="be_BY">by</button></li>
+                           <li><button class="button" type="submit" name="language" value="ru_RU">ru</button></li>
+                        </form>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
     </nav>
+
+</html>
 
     <style>
       .dropdown a {
@@ -95,7 +98,7 @@
          .button:hover {
              background-color: rgb(221, 221, 221);
          }
-        .category{
+        .category, .language{
             margin: 0;
             padding: 0;
           }

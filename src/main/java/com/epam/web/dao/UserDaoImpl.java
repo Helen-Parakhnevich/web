@@ -1,10 +1,10 @@
 package com.epam.web.dao;
 
+import com.epam.web.connection.ProxyConnection;
 import com.epam.web.entity.User;
 import com.epam.web.exception.DaoException;
 import com.epam.web.mapper.UserRowMapper;
 
-import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +23,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
     private static final String FIND_BY_LOGIN_AND_PASSWORD = "SELECT * FROM USER WHERE login = ? AND PASSWORD = ?";
 
-    public UserDaoImpl(Connection connection) {
+    public UserDaoImpl(ProxyConnection connection) {
         super(connection, new UserRowMapper(), TABLE);
     }
 
@@ -48,8 +48,8 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
-    public Optional<User> create() throws DaoException {
-        return Optional.empty();
+    public boolean create(User object) throws DaoException {
+        return false;
     }
 
     @Override

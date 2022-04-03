@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface LotService {
 
+    boolean create(Lot lot) throws ServiceException;
     Optional<Lot> getById(long id) throws ServiceException;
     Optional<Lot> getByIdWithBid(long id) throws ServiceException;
     List<Lot> getCurrentByType(LotType type) throws ServiceException;

@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class Controller extends HttpServlet {
 
-    private static final String ERROR_PAGE = "pages/404.jsp";
+    private static final String ERROR_PAGE = "/jsp/error.jsp";
     private final Logger LOGGER = LogManager.getLogger(Controller.class);
 
     @Override
@@ -37,6 +37,8 @@ public class Controller extends HttpServlet {
             action = factoryCommand.create(command);
         } catch (ServiceException e) {
             LOGGER.error("Unknown command " + command, e);
+            req.setAttribute("errorMessage", e.getMessage());
+            dispatch(req, resp, CommandResult.forward(ERROR_PAGE));
             throw new ServletException(e);
         }
         try {

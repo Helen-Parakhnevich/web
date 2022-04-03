@@ -1,6 +1,5 @@
 package com.epam.web.service;
 
-import com.epam.web.Controller;
 import com.epam.web.dao.DaoHelper;
 import com.epam.web.dao.DaoHelperFactory;
 import com.epam.web.dao.LotDao;
@@ -17,10 +16,23 @@ public class LotServiceImpl implements LotService {
 
     private DaoHelperFactory daoHelperFactory;
 
-    private final Logger LOGGER = LogManager.getLogger(Controller.class);
+    private final Logger LOGGER = LogManager.getLogger(LotServiceImpl.class);
 
     public LotServiceImpl(DaoHelperFactory daoHelperFactory) {
         this.daoHelperFactory = daoHelperFactory;
+    }
+
+    @Override
+    public boolean create(Lot lot) throws ServiceException {
+        try (DaoHelper daoHelper= daoHelperFactory.create()) {
+            daoHelper.startTransaction();
+            LotDao lotDao = daoHelper.createLotDao();
+            daoHelper.endTransaction();
+            return lotDao.create(lot);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new ServiceException(e);
+        }
     }
 
     @Override

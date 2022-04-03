@@ -1,11 +1,11 @@
 package com.epam.web.dao;
 
+import com.epam.web.connection.ProxyConnection;
 import com.epam.web.entity.Category;
 import com.epam.web.exception.DaoException;
 import com.epam.web.mapper.RowMapper;
 import com.epam.web.mapper.UserRowMapper;
 
-import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +18,7 @@ public class CategoryDaoImpl extends AbstractDao<Category> implements CategoryDa
     public static final String ID = "id";
     public static final String NAME = "name";
 
-    public CategoryDaoImpl(Connection connection) {
+    public CategoryDaoImpl(ProxyConnection connection) {
         super(connection, new UserRowMapper(), TABLE);
     }
 
@@ -43,8 +43,8 @@ public class CategoryDaoImpl extends AbstractDao<Category> implements CategoryDa
     }
 
     @Override
-    public Optional<Category> create() throws DaoException {
-        return Optional.empty();
+    public boolean create(Category category) throws DaoException {
+        return false;
     }
 
     @Override

@@ -23,7 +23,7 @@ public class User extends Entity {
     }
 
     public User(Long id, String firstName, String lastName, String login, boolean isAdmin) {
-        super(id);
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;

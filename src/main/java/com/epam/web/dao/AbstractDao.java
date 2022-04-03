@@ -1,5 +1,6 @@
 package com.epam.web.dao;
 
+import com.epam.web.connection.ProxyConnection;
 import com.epam.web.entity.Identifiable;
 import com.epam.web.exception.DaoException;
 import com.epam.web.mapper.RowMapper;
@@ -19,7 +20,7 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
     private final RowMapper<T> rowMapper;
     private final String table;
 
-    public AbstractDao(Connection connection, RowMapper<T> rowMapper, String table) {
+    public AbstractDao(ProxyConnection connection, RowMapper<T> rowMapper, String table) {
         this.connection = connection;
         this.rowMapper = rowMapper;
         this.table = table;
@@ -87,6 +88,15 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
             throw new IllegalArgumentException("More than one record found");
         } else {
             return Optional.empty();
+        }
+    }
+
+    public boolean executeQueryNoResult(String query, Object... params) throws DaoException {
+        try (PreparedStatement statement = createPreparedStatement(query, params)) {
+            statement.execute();
+            return true;
+        } catch (SQLException e) {
+            throw new DaoException(e);
         }
     }
 

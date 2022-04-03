@@ -35,7 +35,7 @@ public class CatalogCommand implements Command {
         } else {
             lots = service.getCurrentByType(LotType.DIRECT);
         }
-        req.getSession().setAttribute("lots", lots);
+        req.setAttribute("lots", lots);
         return CommandResult.redirect(CATALOG_PAGE);
     }
 }
