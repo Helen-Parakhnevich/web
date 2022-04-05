@@ -16,6 +16,10 @@ public class CommandFactory {
                 return new LoginCommand(new UserServiceImpl(daoHelperFactory));
             case "logout":
                 return new LogoutCommand();
+            case "all_user":
+                return new AllUserCommand(new UserServiceImpl(daoHelperFactory));
+            case "all_lot":
+                return new AllLotCommand(new LotServiceImpl(daoHelperFactory));
             case "direct_lot_by_category":
                 return new DirectLotByCategory(new LotServiceImpl(daoHelperFactory));
             case "reverse_lot":

@@ -34,7 +34,7 @@ public class LotDaoImpl extends AbstractDao<Lot> implements LotDao {
             "values(?, ?, ?, ?, ?, ?, ?, ?)";
 
     private static final String GET_LOT_WITH_MAX_BID_PART_1 = "WITH lot_max_bid AS ( " +
-           // "SELECT " +
+            "SELECT " +
             "lots.id as lot_id," +
             "lots.title AS title," +
             "lots.date_start AS date_start," +
@@ -194,6 +194,11 @@ public class LotDaoImpl extends AbstractDao<Lot> implements LotDao {
 
     @Override
     protected String getTableName() {
+        return Lot.TABLE;
+    }
+
+    @Override
+    protected String getRowMapperTableName() {
         return Lot.TABLE;
     }
 }

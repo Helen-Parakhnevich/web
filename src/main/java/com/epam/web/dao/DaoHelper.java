@@ -22,6 +22,10 @@ public class DaoHelper implements AutoCloseable {
         return new LotDaoImpl(connection);
     }
 
+    public LotBaseDao createLotBaseDao() {
+        return new LotBaseDaoImpl(connection);
+    }
+
     public BidDao createBidDao() {
         return new BidDaoImpl(connection);
     }

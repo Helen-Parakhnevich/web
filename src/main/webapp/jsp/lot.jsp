@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../static/styles/style.css">
 <%--<link rel="stylesheet" href="../static/styles/style_catalog.css"> --%>
     <script type="text/javascript" src="../static/scripts/timer.js"></script>
+    <title>${lot.title}</title>
 </head>
 
 <body>
@@ -25,7 +26,10 @@
         <div class="img" style="justify-content:start;">
             <img src="data:image/jpeg;base64,${lot.imgBase64}" width=100% height=100%>
             <form method="post" action="${pageContext.request.contextPath}/controller?command=watch">
-              <button class="watch" type="submit">WATCH</button>
+              <button class="watch" type="submit">
+                 <div class="star"></div>
+                 WATCH
+              </button>
             </form>
         </div>
         <div class="details" style="justify-content:start;">
@@ -69,17 +73,12 @@
 <script>
 
     document.addEventListener('DOMContentLoaded', () => {
-
         const currentDeadLine = new Date(String(document.getElementById("date_end").textContent));
-
         new CountdownTimer(currentDeadLine, (timer)=> {
-
             document.getElementById("timer").innerHTML = timer.days + ":" + timer.hours + ":" + timer.minutes + ":" + timer.seconds ;
-
           }, () => {
             document.getElementById("timer").innerHTML= 'ENDED';
           });
-
     });
 
     </script>
@@ -108,6 +107,7 @@
    flex-direction: row;
    margin-top: 1%;
    border-top: 1px solid gainsboro;
+   background-image: url("arrow-blue.png");
         }
 
 .lot > div {
@@ -142,6 +142,42 @@
         font-size: 16px;
         background-color: white;
         padding: 4px 15px;
+    }
+
+    .star {
+      display: inline-block;
+      vertical-align: top;
+      margin-left: 10px;
+      margin-right: 10px;
+      width: 38px;
+      height: 35px;
+      background: linear-gradient(to bottom, rgba(197, 196, 196, 1) 0%, rgba(180, 179, 178, 1) 100%);
+      position: relative;
+    }
+
+    .star:before {
+      content: '';
+      position: absolute;
+      top: 1px;
+      left: 2px;
+      bottom: 1px;
+      right: 1px;
+      background: linear-gradient(to bottom, rgba(221, 220, 219, 1) 0%, rgba(209, 208, 206, 1) 100%);
+      z-index: 1;
+    }
+
+    .star,
+    .star:before {
+      -webkit-clip-path: polygon(50% 0%, 66% 27%, 98% 35%, 76% 57%, 79% 91%, 50% 78%, 21% 91%, 24% 57%, 2% 35%, 32% 27%);
+      clip-path: polygon(50% 0%, 66% 27%, 98% 35%, 76% 57%, 79% 91%, 50% 78%, 21% 91%, 24% 57%, 2% 35%, 32% 27%);
+    }
+
+    .star:hover {
+      background: linear-gradient(to bottom, rgba(224, 194, 75, 1) 0%, rgba(207, 125, 0, 1) 100%);
+    }
+
+    .star:hover:before {
+      background: linear-gradient(to bottom, rgba(243, 212, 85, 1) 0%, rgba(238, 164, 0, 1) 100%);
     }
 
 </style>

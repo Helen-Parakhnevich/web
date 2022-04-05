@@ -43,11 +43,6 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
-    protected String getTableName() {
-        return User.TABLE;
-    }
-
-    @Override
     public boolean create(User object) throws DaoException {
         return false;
     }
@@ -70,6 +65,16 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
         fields.put(User.LOGIN, item.getLogin());
         fields.put(User.IS_ADMIN, item.isAdmin());
         return fields;
+    }
+
+    @Override
+    protected String getTableName() {
+        return User.TABLE;
+    }
+
+    @Override
+    protected String getRowMapperTableName() {
+        return null;
     }
 }
 

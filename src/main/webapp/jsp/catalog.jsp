@@ -17,7 +17,6 @@
 </head>
 
 <body>
-
     <header class="top-header">
         <jsp:include page="./fragments/header.jsp" />
     </header>
@@ -32,7 +31,12 @@
        <c:forEach items="${lots}" var="item" varStatus="loop">
             <div class="item">
                 <div class="img-container">
-                    <p><img src="data:image/jpeg;base64,${item.imgBase64}" width=100% height=100%></p>
+                    <div>
+                      <img src="data:image/jpeg;base64,${item.imgBase64}" width=100% height=100%>
+                      <c:if test="${item.type=='REVERSE'}">
+                        <button class="ico-revers"></button>
+                      </c:if>
+                    </div>
                 </div>
                 <div class="text-container">
                   <form method="post" action="${pageContext.request.contextPath}/controller?command=show_lot">
@@ -49,6 +53,8 @@
                     </c:choose>
                     <p class="end" hidden>ENDS: <span id="date_end${loop.index}" style="font-weight:bold;">${item.stringDateEnd}</span></p>
                     <p>ENDS IN: <span id="timer${loop.index}" style="font-weight:bold;"></span></p>
+                    <p>${type}</p>
+                    <p>${item.type}</p>
                 </div>
             </div>
         </c:forEach>
@@ -72,7 +78,7 @@
           });
     }
     });
-    console.log("${type}");
+
     </script>
 
 
@@ -81,13 +87,40 @@
                  border: none;
                  text-decoration: underline;
                  background-color: white;
-
              }
 
              .item-header {
+                  cursor: pointer;
+             }
 
-                 cursor: pointer;
+             .ico-revers {
+               width: 35px;
+               height: 38px;
+               display: inline-block;
+               vertical-align: top;
+               position: relative;
+               margin-left: 10px;
+               background-image: url('../static/img/arrow-blue.png');
+               background-size: 100%;
+               background-color: inherit;
+               border: none;
+               cursor: pointer;
+               float: right;
+               margin-top: 5px;
+               margin-right: 10px;
+             }
 
+             .revers {
+              display: inline-block;
+               vertical-align: top;
+               position: relative;
+             -webkit-background-clip: text;
+             -moz-background-clip: text;
+             background-clip: text;
+             color: transparent;
+             text-shadow: rgba(255,255,255,0.5) 0px 3px 3px;
+             font-size: 10px;
+             color: yellowgreen;
              }
 
     </style>

@@ -9,6 +9,7 @@ import com.epam.web.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
@@ -28,6 +29,18 @@ public class UserServiceImpl implements UserService {
             UserDao userDao = daoHelper.createUserDao();
             Optional<User> user = userDao.findUserByLoginAndPassword(login,password);
             return user;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<User> getAll() throws ServiceException {
+        try (DaoHelper daoHelper= daoHelperFactory.create()) {
+            UserDao userDao = daoHelper.createUserDao();
+            List<User> users = userDao.getAll();
+            return users;
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             throw new ServiceException(e);

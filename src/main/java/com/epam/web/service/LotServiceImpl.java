@@ -2,8 +2,10 @@ package com.epam.web.service;
 
 import com.epam.web.dao.DaoHelper;
 import com.epam.web.dao.DaoHelperFactory;
+import com.epam.web.dao.LotBaseDao;
 import com.epam.web.dao.LotDao;
 import com.epam.web.entity.Lot;
+import com.epam.web.entity.LotBase;
 import com.epam.web.entity.LotType;
 import com.epam.web.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
@@ -29,6 +31,18 @@ public class LotServiceImpl implements LotService {
             LotDao lotDao = daoHelper.createLotDao();
             daoHelper.endTransaction();
             return lotDao.create(lot);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<LotBase> getAll() throws ServiceException {
+        try (DaoHelper daoHelper= daoHelperFactory.create()) {
+            LotBaseDao lotDao = daoHelper.createLotBaseDao();
+            List<LotBase> lots = lotDao.getAll();
+            return lots;
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             throw new ServiceException(e);

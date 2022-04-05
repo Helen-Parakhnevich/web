@@ -19,16 +19,16 @@
     <header class="top-header">
         <jsp:include page="/jsp/fragments/header.jsp" />
     </header>
-        <nav class="top-nav">
-          <c:choose>
-            <c:when test="${isAdmin}">
-              <jsp:include page="/jsp/fragments/menu_admin.jsp" />
-            </c:when>
-            <c:otherwise>
-              <jsp:include page="/jsp/fragments/menu.jsp" />
-            </c:otherwise>
-          </c:choose>
-        </nav>
+    <nav class="top-nav">
+      <c:choose>
+         <c:when test="${isAdmin}">
+           <jsp:include page="/jsp/fragments/menu_admin.jsp" />
+         </c:when>
+         <c:otherwise>
+           <jsp:include page="/jsp/fragments/menu.jsp" />
+         </c:otherwise>
+      </c:choose>
+    </nav>
 </body>
 
 <script>

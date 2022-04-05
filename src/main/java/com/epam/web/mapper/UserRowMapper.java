@@ -13,9 +13,9 @@ public class UserRowMapper implements RowMapper {
         String firstName = resultSet.getString(User.FIRST_NAME);
         String lastName = resultSet.getString(User.LAST_NAME);
         String login = resultSet.getString(User.LOGIN);
-        boolean isAdmin = resultSet.getBoolean(String.valueOf(User.IS_ADMIN));
-        boolean isBlocked = resultSet.getBoolean(String.valueOf(User.IS_BLOCKED));
+        boolean isAdmin = resultSet.getBoolean(User.IS_ADMIN);
+        boolean isBlocked = resultSet.getBoolean(User.IS_BLOCKED);
 
-        return new User(id, firstName, lastName, login, isAdmin);
+        return new User(id, firstName, lastName, login, isAdmin, isBlocked);
     }
 }

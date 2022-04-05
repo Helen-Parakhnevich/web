@@ -48,4 +48,9 @@ public class BidDaoImpl extends AbstractDao<Bid> implements BidDao {
     protected String getTableName() {
         return null;
     }
+
+    @Override
+    protected String getRowMapperTableName() {
+        return null;
+    }
 }

@@ -6,18 +6,53 @@
 <fmt:setBundle basename="content"/>
 
 <html>
-<body>
+  <head>
+    <link rel="stylesheet" href="./static/styles/style.css">
+  </head>
+
+  <body>
 
 	<h1 id="heading">
-		<fmt:message key="error-page-title" />
+		<fmt:message key="error-page.title" />
 	</h1>
 	<p>${errorMessage}</p>
-	<button onclick="location.href='index.jsp'" type="button" style = "background-image: url('static/img/arrow.png')">
-		<fmt:message key="go-back" />
-	</button>
-     <div class="img" style="size: 100px; float: right; top: 100%">
-                <p><img src="static/img/car-line.jpg"></p>
-        </div>
+	<div class="container">
+	  <div class="back" onclick="location.href='index.jsp'">
+	    <img src="static/img/arrow.png">
+	    <label><fmt:message key="error-page.back" /></label>
+	  </div>
+       <div class="img">
+        <img src="static/img/car-line.png">
+       </div>
+     </div>
 
-<body>
+  <body>
+
+  <style>
+
+    .back {
+    flex-direction: row;
+    display: flex;
+    justify-content: center;
+    width: 250px;
+    height: 30px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 25px;
+    }
+
+    .container {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       flex-direction: row;
+       height: 500px;
+    }
+
+    .img {
+    display: flex;
+    }
+
+
+ </style>
+
 <html>

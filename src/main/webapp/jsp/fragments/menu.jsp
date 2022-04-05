@@ -25,7 +25,7 @@
                     <c:forEach items="${sessionScope.categories}" var="category">
                     <form class="category" method="post" action="${pageContext.request.contextPath}/controller?command=direct_lot_by_category">
                           <input  name="categoryId" value="${category.id}" type="hidden">
-                           <button class="button" id="button${loop.index}" type="submit">${category.name}</button>
+                          <button class="button" id="button${loop.index}" type="submit">${category.name}</button>
                      </form>
                     </c:forEach>
                     </ul>

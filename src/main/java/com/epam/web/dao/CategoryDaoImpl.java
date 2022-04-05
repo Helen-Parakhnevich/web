@@ -64,4 +64,9 @@ public class CategoryDaoImpl extends AbstractDao<Category> implements CategoryDa
     protected String getTableName() {
         return Category.TABLE;
     }
+
+    @Override
+    protected String getRowMapperTableName() {
+        return Category.TABLE;
+    }
 }
