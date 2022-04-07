@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DirectLotByCategory implements Command {
-    private static final String CATALOG_PAGE = "jsp/catalog.jsp";
+    private static final String CATALOG_PAGE = "/jsp/catalog.jsp";
 
     private final LotServiceImpl service;
 
@@ -34,8 +34,8 @@ public class DirectLotByCategory implements Command {
         } else {
             lots = service.getCurrentByType(LotType.DIRECT);
         }
-        req.getSession().setAttribute("lots", lots);
-        req.getSession().setAttribute("type", "direct");
-        return CommandResult.redirect(CATALOG_PAGE);
+        req.setAttribute("lots", lots);
+        req.setAttribute("type", "direct");
+        return CommandResult.forward(CATALOG_PAGE);
     }
 }

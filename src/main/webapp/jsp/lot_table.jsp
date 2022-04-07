@@ -7,7 +7,7 @@
 
 <html>
   <head>
-      <link rel="stylesheet" href="../static/styles/style.css">
+      <link rel="stylesheet" href="./static/styles/style.css">
   </head>
 
   <body>

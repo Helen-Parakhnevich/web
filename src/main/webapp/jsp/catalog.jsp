@@ -6,14 +6,14 @@
     <c:set var="locale" value="en_EN" scope="session"/>
 </c:if>
 <fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="locale"/>
+<fmt:setBundle basename="content"/>
 
 <html>
 
 <head>
-    <link rel="stylesheet" href="../static/styles/style.css">
-    <link rel="stylesheet" href="../static/styles/style_catalog.css">
-    <script type="text/javascript" src="../static/scripts/timer.js"></script>
+    <link rel="stylesheet" href="./static/styles/style.css">
+    <link rel="stylesheet" href="./static/styles/style_catalog.css">
+    <script type="text/javascript" src="./static/scripts/timer.js"></script>
 </head>
 
 <body>
@@ -25,7 +25,11 @@
         <jsp:include page="./fragments/menu.jsp" />
     </nav>
     <c:if test="${type=='direct'}">
+      <div class="page-header"><fmt:message key="page-header.direct-auctions"/></div>
       <jsp:include page="./fragments/filter_category.jsp" />
+    </c:if>
+    <c:if test="${type=='reverse'}">
+        <div class="page-header"><fmt:message key="page-header.reverse-auctions"/></div>
     </c:if>
     <div class="grid">
        <c:forEach items="${lots}" var="item" varStatus="loop">
@@ -53,8 +57,6 @@
                     </c:choose>
                     <p class="end" hidden>ENDS: <span id="date_end${loop.index}" style="font-weight:bold;">${item.stringDateEnd}</span></p>
                     <p>ENDS IN: <span id="timer${loop.index}" style="font-weight:bold;"></span></p>
-                    <p>${type}</p>
-                    <p>${item.type}</p>
                 </div>
             </div>
         </c:forEach>
@@ -83,6 +85,14 @@
 
 
     <style>
+    .page-header {
+            display: flex;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 1%;
+        }
+
              .item-header {
                  border: none;
                  text-decoration: underline;
@@ -100,7 +110,7 @@
                vertical-align: top;
                position: relative;
                margin-left: 10px;
-               background-image: url('../static/img/arrow-blue.png');
+               background-image: url('./static/img/arrow-blue.png');
                background-size: 100%;
                background-color: inherit;
                border: none;

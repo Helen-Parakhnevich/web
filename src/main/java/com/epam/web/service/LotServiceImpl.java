@@ -7,10 +7,12 @@ import com.epam.web.dao.LotDao;
 import com.epam.web.entity.Lot;
 import com.epam.web.entity.LotBase;
 import com.epam.web.entity.LotType;
+import com.epam.web.exception.DaoException;
 import com.epam.web.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +33,7 @@ public class LotServiceImpl implements LotService {
             LotDao lotDao = daoHelper.createLotDao();
             daoHelper.endTransaction();
             return lotDao.create(lot);
-        } catch (Exception e) {
+        } catch (SQLException| DaoException e) {
             LOGGER.error(e.getMessage());
             throw new ServiceException(e);
         }
@@ -43,7 +45,7 @@ public class LotServiceImpl implements LotService {
             LotBaseDao lotDao = daoHelper.createLotBaseDao();
             List<LotBase> lots = lotDao.getAll();
             return lots;
-        } catch (Exception e) {
+        } catch (SQLException| DaoException e) {
             LOGGER.error(e.getMessage());
             throw new ServiceException(e);
         }
@@ -56,7 +58,7 @@ public class LotServiceImpl implements LotService {
             LotDao lotDao = daoHelper.createLotDao();
             List<Lot> directLot= lotDao.getCurrentByType(type);
             return directLot;
-        } catch (Exception e) {
+        } catch (SQLException| DaoException e) {
             LOGGER.error(e.getMessage());
             throw new ServiceException(e);
         }
@@ -69,7 +71,7 @@ public class LotServiceImpl implements LotService {
             LotDao lotDao = daoHelper.createLotDao();
             List<Lot> directLot= lotDao.getDirectByCategory(id);
             return directLot;
-        } catch (Exception e) {
+        } catch (SQLException| DaoException e) {
             LOGGER.error(e.getMessage());
             throw new ServiceException(e);
         }
@@ -81,7 +83,7 @@ public class LotServiceImpl implements LotService {
             LotDao lotDao = daoHelper.createLotDao();
             Optional<Lot> lot = lotDao.getById(id);
             return lot;
-        } catch (Exception e) {
+        } catch (SQLException| DaoException e) {
             LOGGER.error(e.getMessage());
             throw new ServiceException(e);
         }
@@ -93,7 +95,7 @@ public class LotServiceImpl implements LotService {
             LotDao lotDao = daoHelper.createLotDao();
             Optional<Lot> lot = lotDao.getByIdWithBid(id);
             return lot;
-        } catch (Exception e) {
+        } catch (SQLException| DaoException e) {
             LOGGER.error(e.getMessage());
             throw new ServiceException(e);
         }

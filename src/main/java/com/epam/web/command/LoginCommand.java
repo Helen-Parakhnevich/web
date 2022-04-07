@@ -16,7 +16,7 @@ import java.util.Optional;
 
 public class LoginCommand implements Command {
 
-    private static final String LOGIN_PAGE = "index.jsp";
+    private static final String LOGIN_PAGE = "/index.jsp";
     private static final String MAIN_PAGE = "jsp/main.jsp";
 
     private final UserServiceImpl service;
@@ -38,7 +38,7 @@ public class LoginCommand implements Command {
             HttpSession session = req.getSession();
             User registeredUser = user.get();
             session.setAttribute("userId", registeredUser.getId());
-            session.setAttribute("isAdmin", registeredUser.isAdmin());
+            session.setAttribute("isAdmin", registeredUser.getIsAdmin());
             session.setAttribute("categories", categories);
             result  = CommandResult.redirect(MAIN_PAGE);
 

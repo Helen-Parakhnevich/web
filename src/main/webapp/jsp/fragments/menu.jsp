@@ -34,7 +34,7 @@
             <div class="dropdown"><a>SELL</a>
                 <div class="dropdown-menu">
                     <ul>
-                        <li><a href="#">Request for sale</a></li>
+                        <li><a href="${pageContext.request.contextPath}/controller?command=request_for_sale">Request for sale</a></li>
                         <li><a href="#">Sell at reverse auction</a></li>
                     </ul>
                 </div>

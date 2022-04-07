@@ -35,7 +35,7 @@ public class DaoHelper implements AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() throws SQLException {
         connection.close();
     }
 

@@ -16,8 +16,7 @@ import java.util.Optional;
 
 public class CreateBidCommand implements Command {
 
-    private static final String LOT_PAGE = "jsp/lot.jsp";
-    private static final String ERROR_PAGE = "";
+    private static final String ERROR_PAGE = "/jsp/error-page.jsp";
 
     private final BidServiceImpl service;
 
@@ -37,9 +36,7 @@ public class CreateBidCommand implements Command {
 
         CommandResult result;
         if (service.create(newBid) & lot.isPresent()) {
-            //result  = CommandResult.redirect(LOT_PAGE);
-
-            req.getSession().getServletContext().setAttribute("lotId", lotId);
+            req.setAttribute("lotId", lotId);
             result  = CommandResult.forward("/controller?command=show_lot");
         } else {
             req.setAttribute("errorMessage", "");

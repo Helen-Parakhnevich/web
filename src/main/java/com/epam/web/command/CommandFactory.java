@@ -8,6 +8,8 @@ import com.epam.web.service.UserServiceImpl;
 
 public class CommandFactory {
 
+    private static final String LOT_CREATE = "/jsp/lot_create.jsp";
+
     private final DaoHelperFactory daoHelperFactory = new DaoHelperFactory();
 
     public Command create(String command) throws ServiceException {
@@ -28,8 +30,8 @@ public class CommandFactory {
                 return new ShowLotCommand(new LotServiceImpl(daoHelperFactory));
             case "make_bid":
                 return new CreateBidCommand(new BidServiceImpl(daoHelperFactory));
-            case "some_page":
-                return new ShowPageCommand("some_page");
+            case "request_for_sale":
+                return new ShowPageCommand(LOT_CREATE);
             case "language":
                 return new LanguageCommand();
 //            case "back":

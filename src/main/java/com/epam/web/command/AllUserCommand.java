@@ -23,8 +23,8 @@ public class AllUserCommand implements Command {
 
         List<User> users = new ArrayList<>();
         users = service.getAll();
-        req.getSession().setAttribute("users", users);
-        return CommandResult.redirect(USER_TABLE);
+        req.setAttribute("users", users);
+        return CommandResult.forward(USER_TABLE);
 
     }
 }

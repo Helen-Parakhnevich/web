@@ -1,14 +1,14 @@
 package com.epam.web.entity;
 
 import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-@Getter
-@Setter
+@Data
 public class Bid extends Entity {
 
     public static final String TABLE = "bid";
@@ -35,4 +35,5 @@ public class Bid extends Entity {
         this.dateBid = dateBid;
         this.sumBid = sumBid;
     }
+
 }

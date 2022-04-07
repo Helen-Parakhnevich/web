@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ReversLot implements Command {
 
-    private static final String CATALOG_PAGE = "jsp/catalog.jsp";
+    private static final String CATALOG_PAGE = "/jsp/catalog.jsp";
 
     private final LotServiceImpl service;
 
@@ -27,7 +27,7 @@ public class ReversLot implements Command {
         lots = service.getCurrentByType(LotType.REVERSE);
         req.getSession().setAttribute("lots", lots);
         req.getSession().setAttribute("type", "reverse");
-        return CommandResult.redirect(CATALOG_PAGE);
+        return CommandResult.forward(CATALOG_PAGE);
 
     }
 }

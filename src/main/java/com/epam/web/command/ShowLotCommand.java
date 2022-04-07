@@ -10,8 +10,8 @@ import java.util.Optional;
 
 public class ShowLotCommand implements Command {
 
-    private static final String LOT_PAGE = "jsp/lot.jsp";
-    private static final String ERROR_PAGE = "";
+    private static final String LOT_PAGE = "/jsp/lot.jsp";
+    private static final String ERROR_PAGE = "/jsp/error_page.jsp";
 
     private final LotServiceImpl service;
 
@@ -28,8 +28,8 @@ public class ShowLotCommand implements Command {
         CommandResult result;
         if (lot.isPresent()) {
             Lot currentLot = lot.get();
-            req.getSession().setAttribute("lot", currentLot);
-            result  = CommandResult.redirect(LOT_PAGE);
+            req.setAttribute("lot", currentLot);
+            result  = CommandResult.forward(LOT_PAGE);
 
         } else {
             req.setAttribute("errorMessage", "");

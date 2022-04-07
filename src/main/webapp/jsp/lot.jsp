@@ -2,16 +2,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<c:choose>
+<c:when test="${not empty lot.bidSum}">
+<c:set var="starSumtBid" value="${lot.bidSum}" />
+</c:when>
+<c:otherwise>
+<c:set var="starSumtBid" value="${lot.startPrice}" />
+</c:otherwise>
+</c:choose>
+
 <html>
 
-<head>
-    <link rel="stylesheet" href="../static/styles/style.css">
-<%--<link rel="stylesheet" href="../static/styles/style_catalog.css"> --%>
-    <script type="text/javascript" src="../static/scripts/timer.js"></script>
+  <head>
+    <link rel="stylesheet" href="./static/styles/style.css">
+    <script type="text/javascript" src="./static/scripts/timer.js"></script>
     <title>${lot.title}</title>
-</head>
+  </head>
 
-<body>
+  <body>
 
     <header class="top-header">
         <jsp:include page="./fragments/header.jsp" />
@@ -38,14 +46,12 @@
                 <button class="make-bid" type="submit">MAKE A BID</button>
                 <label> $</label>
                 <c:choose>
-                    <c:when test="${not empty lot.bidSum}">
-                        <input class="bid-sum" name="bidSum" type="number" min="${lot.bidSum}" value="${lot.bidSum}"
-                            step="200" />
-                    </c:when>
-                    <c:otherwise>
-                        <input class="bid-sum" name="bidSum" type="number" min="${lot.startPrice}"
-                            value="${lot.startPrice}" step="200" />
-                    </c:otherwise>
+                  <c:when test="${lot.type=='DIRECT'}">
+                    <input class="bid-sum" name="bidSum" type="number" min="${starSumtBid}" value="${starSumtBid}" step="200" />
+                  </c:when>
+                  <c:otherwise>
+                     <input class="bid-sum" name="bidSum" type="number" max="${starSumtBid}" value="${starSumtBid}" step="200" />
+                  </c:otherwise>
                 </c:choose>
             </form>
             <c:choose>
@@ -107,7 +113,7 @@
    flex-direction: row;
    margin-top: 1%;
    border-top: 1px solid gainsboro;
-   background-image: url("arrow-blue.png");
+
         }
 
 .lot > div {

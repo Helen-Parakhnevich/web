@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class Controller extends HttpServlet {
 
-    private static final String ERROR_PAGE = "/jsp/error.jsp";
+    private static final String ERROR_PAGE = "/jsp/error_page.jsp";
     private final Logger LOGGER = LogManager.getLogger(Controller.class);
 
     @Override
@@ -44,7 +44,7 @@ public class Controller extends HttpServlet {
         try {
             CommandResult result = action.execute(req, resp);
             dispatch(req, resp, result);
-        } catch (Exception e) {
+        } catch (ServiceException e) {
             req.setAttribute("errorMessage", e.getMessage());
             dispatch(req, resp, CommandResult.forward(ERROR_PAGE));
             LOGGER.error("Failed to execute command " + command, e);

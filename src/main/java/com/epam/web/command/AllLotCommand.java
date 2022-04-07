@@ -24,8 +24,8 @@ public class AllLotCommand implements Command {
 
         List<LotBase> lots = new ArrayList<>();
         lots = service.getAll();
-        req.getSession().setAttribute("lots", lots);
-        return CommandResult.redirect(LOT_TABLE);
+        req.setAttribute("lots", lots);
+        return CommandResult.forward(LOT_TABLE);
 
     }
 

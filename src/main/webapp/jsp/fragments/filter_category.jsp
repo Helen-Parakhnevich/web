@@ -2,13 +2,14 @@
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-     <div class="filters">
+  <div class="filters">
      <div>
         <form method="post" action="${pageContext.request.contextPath}/controller?command=direct_lot_by_category">
            <input  name="categoryId" value="0" type="hidden">
             <button class="button-ref" type="submit">All categories</button>
         </form>
      </div>
+     <div>${currentFilter}</div>
          <c:forEach items="${sessionScope.categories}" var="category" varStatus="loop">
              <div>
                  <form method="post" action="${pageContext.request.contextPath}/controller?command=direct_lot_by_category">
@@ -18,7 +19,7 @@
              </div>
          </c:forEach>
 
-     </div>
+  </div>
 
      <style>
          .button-ref {
@@ -39,7 +40,7 @@
          .filters {
              display: grid;
              position: relative;
-             margin: 1% 7%;
+             margin: 2% 7% 1%;
              justify-content: center;
              grid-template-columns: repeat(auto-fill, minmax(10rem, 10rem));
              gap: 1rem;
@@ -49,11 +50,11 @@
 
     <script>
 
- //    document.addEventListener('DOMContentLoaded', () => {
- //       for (let i=0; i<"${sessionScope.categories.size()}"; i++) {
-
- //         document.getElementById("button"+ i).onclick=function(e){e.target.style.background="red"};
-
- //       }
- //    });
+//     document.addEventListener('DOMContentLoaded', () => {
+//      for (let i=0; i<"${sessionScope.categories.size()}"; i++) {
+//
+//        document.getElementById("button"+ i).onclick=function(e){ e.target.style.background="red";};
+//
+//      }
+//    });
    </script>

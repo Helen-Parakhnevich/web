@@ -7,7 +7,7 @@
 
 <html>
   <head>
-      <link rel="stylesheet" href="../static/styles/style.css">
+      <link rel="stylesheet" href="./static/styles/style.css">
   </head>
 
   <body>
@@ -41,6 +41,8 @@
              <td><c:out value="${user.firstName}"/><td>
              <td><c:out value="${user.lastName}"/><td>
              <td><c:out value="${user.login}"/><td>
+             <td><c:out value="${user.isAdmin}"/><td>
+             <td><c:out value="${user.isBlocked}"/><td>
              <%-- <c:if test="${user.isAdmin}">
                <td><td>
              </c:if>

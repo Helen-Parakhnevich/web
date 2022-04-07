@@ -26,8 +26,8 @@ public class User extends Entity {
     private String lastName;
     private String login;
     private String password;
-    private boolean isAdmin;
-    private boolean isBlocked;
+    private Boolean isAdmin;
+    private Boolean isBlocked;
 
     public User(Long id, String login) {
         this.id = id;

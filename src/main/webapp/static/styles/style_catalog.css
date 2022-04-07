@@ -2,7 +2,7 @@
 .grid {
     display: grid;
     position: relative;
-    margin: 3%;
+    margin: 1% 3%;
     justify-content: center;
     grid-template-columns: repeat(auto-fill, minmax(23rem, 23rem));
     grid-auto-rows: minmax(300px, auto);

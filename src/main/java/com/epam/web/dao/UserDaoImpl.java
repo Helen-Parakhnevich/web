@@ -63,7 +63,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
         fields.put(User.FIRST_NAME, item.getFirstName());
         fields.put(User.LAST_NAME, item.getLastName());
         fields.put(User.LOGIN, item.getLogin());
-        fields.put(User.IS_ADMIN, item.isAdmin());
+        fields.put(User.IS_ADMIN, item.getIsAdmin());
         return fields;
     }
 
