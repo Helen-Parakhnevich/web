@@ -6,7 +6,6 @@ import com.epam.web.exception.DaoException;
 import com.epam.web.mapper.UserRowMapper;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -20,8 +19,13 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     public static final String LOGIN = "login";
     public static final String PASSWORD = "password";
     public static final String IS_ADMIN = "is_admin";
+    public static final String IS_BLOCKED = "is_admin";
 
-    private static final String FIND_BY_LOGIN_AND_PASSWORD = "SELECT * FROM USER WHERE login = ? AND PASSWORD = ?";
+    private static final String FILTER_NOT_DELETED = " AND is_deleted='0' ";
+    private static final String FIND_BY_LOGIN_AND_PASSWORD = "SELECT * FROM USER WHERE login = ? AND PASSWORD = ?" + FILTER_NOT_DELETED;
+    private static final String CREATE_USER = "INSERT INTO USER (first_name, last_name, login, password, is_admin)" +
+            "values(?, ?, ?, ?, ?)";
+    private static final String BLOCK_UNBLOCK_USER = "UPDATE USER SET is_blocked= not is_blocked WHERE id = ?";
 
     public UserDaoImpl(ProxyConnection connection) {
         super(connection, new UserRowMapper(), TABLE);
@@ -33,23 +37,20 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
-    public Optional<User> getById(long id) throws DaoException {
-        return Optional.empty();
+    public boolean blockUnblockUser(long id) throws DaoException {
+        executeQueryNoResult(BLOCK_UNBLOCK_USER, id);
+        return true;
     }
 
     @Override
-    public List<User> getAll() throws DaoException {
-        return executeQuery("SELECT * FROM user", new UserRowMapper());
-    }
-
-    @Override
-    public boolean create(User object) throws DaoException {
-        return false;
-    }
-
-    @Override
-    public void save(User object) throws DaoException {
-
+    public boolean create(User user) throws DaoException {
+       String firstName = user.getFirstName();
+       String lastName = user.getLastName();
+       String login = user.getLogin();
+       String password = user.getPassword();
+       Boolean isAdmin = user.getIsAdmin();
+       executeQueryNoResult(CREATE_USER, firstName, lastName, login, password, isAdmin);
+       return true;
     }
 
     @Override
@@ -64,6 +65,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
         fields.put(User.LAST_NAME, item.getLastName());
         fields.put(User.LOGIN, item.getLogin());
         fields.put(User.IS_ADMIN, item.getIsAdmin());
+        fields.put(User.IS_BLOCKED, item.getIsAdmin());
         return fields;
     }
 
@@ -74,7 +76,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
     @Override
     protected String getRowMapperTableName() {
-        return null;
+        return User.TABLE;
     }
 }
 

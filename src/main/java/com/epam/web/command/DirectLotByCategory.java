@@ -7,7 +7,6 @@ import com.epam.web.service.LotServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 public class DirectLotByCategory implements Command {
@@ -28,7 +27,7 @@ public class DirectLotByCategory implements Command {
         } else {
             id = 0;
         }
-        List<Lot> lots = new ArrayList<>();
+        List<Lot> lots;
         if (id!=0) {
             lots = service.getDirectByCategory(id);
         } else {

@@ -4,6 +4,7 @@ import com.epam.web.dao.DaoHelper;
 import com.epam.web.dao.DaoHelperFactory;
 import com.epam.web.dao.LotBaseDao;
 import com.epam.web.dao.LotDao;
+import com.epam.web.dao.LotDaoImpl;
 import com.epam.web.entity.Lot;
 import com.epam.web.entity.LotBase;
 import com.epam.web.entity.LotType;
@@ -12,7 +13,6 @@ import com.epam.web.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,13 +27,13 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
-    public boolean create(Lot lot) throws ServiceException {
+    public boolean create(LotBase lot) throws ServiceException {
         try (DaoHelper daoHelper= daoHelperFactory.create()) {
             daoHelper.startTransaction();
-            LotDao lotDao = daoHelper.createLotDao();
+            LotBaseDao lotDao = daoHelper.createLotBaseDao();
             daoHelper.endTransaction();
             return lotDao.create(lot);
-        } catch (SQLException| DaoException e) {
+        } catch (DaoException e) {
             LOGGER.error(e.getMessage());
             throw new ServiceException(e);
         }
@@ -45,7 +45,33 @@ public class LotServiceImpl implements LotService {
             LotBaseDao lotDao = daoHelper.createLotBaseDao();
             List<LotBase> lots = lotDao.getAll();
             return lots;
-        } catch (SQLException| DaoException e) {
+        } catch (DaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public boolean deleteLot(long id) throws ServiceException {
+        try (DaoHelper daoHelper= daoHelperFactory.create()) {
+            daoHelper.startTransaction();
+            LotBaseDao lotDao = daoHelper.createLotBaseDao();
+            boolean successDelete = lotDao.delete(id);
+            daoHelper.endTransaction();
+            return successDelete;
+        } catch (DaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<Lot> getRequestLot() throws ServiceException {
+        try (DaoHelper daoHelper= daoHelperFactory.create()) {
+            LotDao lotDao = daoHelper.createLotDao();
+            List<Lot> requestLot= lotDao.getRequestLot();
+            return requestLot;
+        } catch (DaoException e) {
             LOGGER.error(e.getMessage());
             throw new ServiceException(e);
         }
@@ -58,7 +84,7 @@ public class LotServiceImpl implements LotService {
             LotDao lotDao = daoHelper.createLotDao();
             List<Lot> directLot= lotDao.getCurrentByType(type);
             return directLot;
-        } catch (SQLException| DaoException e) {
+        } catch (DaoException e) {
             LOGGER.error(e.getMessage());
             throw new ServiceException(e);
         }
@@ -71,7 +97,7 @@ public class LotServiceImpl implements LotService {
             LotDao lotDao = daoHelper.createLotDao();
             List<Lot> directLot= lotDao.getDirectByCategory(id);
             return directLot;
-        } catch (SQLException| DaoException e) {
+        } catch (DaoException e) {
             LOGGER.error(e.getMessage());
             throw new ServiceException(e);
         }
@@ -81,9 +107,9 @@ public class LotServiceImpl implements LotService {
     public Optional<Lot> getById(long id) throws ServiceException {
         try (DaoHelper daoHelper= daoHelperFactory.create()) {
             LotDao lotDao = daoHelper.createLotDao();
-            Optional<Lot> lot = lotDao.getById(id);
+            Optional<Lot> lot = ((LotDaoImpl) lotDao).getById(id);
             return lot;
-        } catch (SQLException| DaoException e) {
+        } catch (DaoException e) {
             LOGGER.error(e.getMessage());
             throw new ServiceException(e);
         }
@@ -95,7 +121,7 @@ public class LotServiceImpl implements LotService {
             LotDao lotDao = daoHelper.createLotDao();
             Optional<Lot> lot = lotDao.getByIdWithBid(id);
             return lot;
-        } catch (SQLException| DaoException e) {
+        } catch (DaoException e) {
             LOGGER.error(e.getMessage());
             throw new ServiceException(e);
         }

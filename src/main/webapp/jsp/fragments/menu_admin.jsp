@@ -10,7 +10,9 @@
         <div class="top-nav">
             <div class="dropdown"><a href="${pageContext.request.contextPath}/controller?command=all_user"><fmt:message key="menu.users"/></a>
             </div>
-            <div class="dropdown"><a href="${pageContext.request.contextPath}/controller?command=all_lot"><fmt:message key="menu.auctions"/></a>
+            <div class="dropdown"><a href="${pageContext.request.contextPath}/controller?command=all_lot"><fmt:message key="menu.lots"/></a>
+            </div>
+            <div class="dropdown"><a href="${pageContext.request.contextPath}/controller?command=all_request"><fmt:message key="menu.requests"/></a>
             </div>
             <div class="dropdown"><a><fmt:message key="menu.categories"/></a>
             </div>

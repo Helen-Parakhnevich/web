@@ -67,7 +67,7 @@
                         </span></p>
                 </c:otherwise>
             </c:choose>
-            <p>ENDS ON: <span id="date_end" style="font-weight:bold;">${lot.stringDateEnd}</span></p>
+            <p>ENDS ON: <span id="date_end" style="font-weight:bold;">${lot.dateEnd}</span></p>
             <p>TIME LEFT: <span id="timer" style="font-weight:bold;"></span></p>
         </div>
         <div></div>

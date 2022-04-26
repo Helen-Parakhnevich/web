@@ -7,10 +7,7 @@ import com.epam.web.entity.LotStatus;
 import com.epam.web.entity.LotType;
 import com.epam.web.exception.DaoException;
 import com.epam.web.mapper.LotRowMapper;
-import com.epam.web.mapper.RowMapper;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -29,9 +26,6 @@ public class LotDaoImpl extends AbstractDao<Lot> implements LotDao {
     public static final String STATUS = "status";
     public static final String USER_ID = "user_id";
     public static final String IS_PAID = "is_paid";
-
-    private static final String CREATE_LOT = "insert into lot (category_id, type, title, start_price, date_start, date_end, duration, user_id)" +
-            "values(?, ?, ?, ?, ?, ?, ?, ?)";
 
     private static final String GET_LOT_WITH_MAX_BID_PART_1 = "WITH lot_max_bid AS ( " +
             "SELECT " +
@@ -95,6 +89,7 @@ public class LotDaoImpl extends AbstractDao<Lot> implements LotDao {
     private static final String GET_CURRENT_WITH_MAX_BID_LOT_BY_TYPE_BY_STATUS =
             GET_LOT_WITH_MAX_BID_PART_1 + CONDITION_BY_TYPE_BY_STATUS + GET_LOT_WITH_MAX_BID_PART_2;
 
+    private static final String GET_REQUEST_LOT = "SELECT * FROM lot INNER JOIN user on lot.user_id=user.id WHERE lot.is_deleted='0' AND lot.status='NEW'";
 
     public LotDaoImpl(ProxyConnection connection) {
         super(connection, new LotRowMapper(), TABLE);
@@ -117,79 +112,33 @@ public class LotDaoImpl extends AbstractDao<Lot> implements LotDao {
     }
 
     @Override
-    public boolean create(Lot lot) throws DaoException {
-        LotType type = lot.getType();
-        Long categoryId = lot.getCategoryId();
-        String title = lot.getTitle();
-        Timestamp dateStart = lot.getDateStart();
-        Timestamp dateEnd = lot.getDateStart();
-        Integer duration = lot.getDuration();
-        BigDecimal startPrice = lot.getStartPrice();
-        Long userId = lot.getUserId();
-        //String description = lot.getDescription();
-        executeForSingleResult(CREATE_LOT, new LotRowMapper(), categoryId, type, title, startPrice, dateStart, dateEnd, duration, userId);
-        return true;
+    public List<Lot> getRequestLot() throws DaoException {
+        return executeQuery(GET_REQUEST_LOT, new LotRowMapper());
     }
-
 
     @Override
     public List<Lot> getReversByCategory(Category category) throws DaoException {
-        return null;
+        throw new UnsupportedOperationException("Not supported yet");
     }
 
     @Override
     public List<Lot> getSold(Category category) throws DaoException {
-        return null;
+        throw new UnsupportedOperationException("Not supported yet");
     }
 
     @Override
-    public List<Lot> getAll() throws DaoException {
-        return super.getAll();
-    }
-
-    @Override
-    public void save(Lot item) throws DaoException {
-        super.save(item);
-    }
-
-    @Override
-    public Optional<Lot> executeForSingleResult(String query, RowMapper<Lot> mapper, Object... params) throws DaoException {
-        return super.executeForSingleResult(query, mapper, params);
-    }
-
-    @Override
-    public Optional<Lot> getById(Long id) throws DaoException {
-        return super.getById(id);
+    public boolean create(Lot object) throws DaoException {
+        throw new UnsupportedOperationException("Not supported yet");
     }
 
     @Override
     public Optional<Lot> removeById(Long id) throws DaoException {
-        return Optional.empty();
-    }
-
-    @Override
-    protected List<Lot> executeQuery(String query, RowMapper<Lot> mapper, Object... params) throws DaoException {
-        return super.executeQuery(query, mapper, params);
-    }
-
-    @Override
-    protected boolean executeUpdate(String query, Object... params) throws DaoException {
-        return super.executeUpdate(query, params);
+        throw new UnsupportedOperationException("Not supported yet");
     }
 
     @Override
     protected Map<String, Object> getFields(Lot item) {
         return null;
-    }
-
-    @Override
-    String generateInsertQuery(Map<String, Object> fields) {
-        return super.generateInsertQuery(fields);
-    }
-
-    @Override
-    String generateUpdateQuery(Map<String, Object> fields) {
-        return super.generateUpdateQuery(fields);
     }
 
     @Override
@@ -201,4 +150,5 @@ public class LotDaoImpl extends AbstractDao<Lot> implements LotDao {
     protected String getRowMapperTableName() {
         return Lot.TABLE;
     }
+
 }

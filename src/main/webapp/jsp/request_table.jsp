@@ -22,8 +22,7 @@
     <div class="container">
     <table>
        <caption class="table-caption" align="left">
-        <label><fmt:message key="lot.caption"/></label>
-        <button class="btn-add" type="submit" onclick="location.href= '${pageContext.request.contextPath}/controller?command=page_new_lot'">+</button>
+        <label><fmt:message key="request.caption"/></label>
        </caption>
        <thead class="table-header">
        <tr class="header-auction">
@@ -34,8 +33,8 @@
          <th><fmt:message key="lot.date-start"/></th>
          <th><fmt:message key="lot.date-end"/></th>
          <th><fmt:message key="lot.start-price"/></h>
+         <th><fmt:message key="lot.user"/></th>
          <th><fmt:message key="lot.status"/></th>
-         <th><fmt:message key="lot.is-paid"/></th>
          <th style='width:100px'></th>
        </tr>
        <thead>
@@ -50,14 +49,7 @@
              <td><c:out value="${lot.dateEnd}"/></td>
              <td>$<fmt:formatNumber maxFractionDigits = "0" value="${lot.startPrice}"/></td>
              <td><c:out value="${lot.status}"/></td>
-             <td style='font-size:20px; text-align:center'>
-               <c:if test="${lot.isPaid}"><b>&#10003</b</c:if>
-             </td>
-             <td style='width: 50px; text-align:center'>
-                <button class="btn-delete" type="submit" onclick="location.href= '${pageContext.request.contextPath}/controller?command=delete_lot&lotId=${lot.id}'">
-                   <fmt:message key="user.btn-delete"/>
-                </button>
-             </td>
+             <td><c:out value="${lot.seller}"/></td>
            </tr>
        </c:forEach>
        <tbody>

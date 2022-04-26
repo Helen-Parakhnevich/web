@@ -63,7 +63,7 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
         String table = getTableName();
         String tableMapper = getRowMapperTableName();
         RowMapper<T> mapper = (RowMapper<T>) RowMapper.create(tableMapper);
-        return executeQuery("SELECT * FROM " + table, mapper);
+        return executeQuery("SELECT * FROM " + table + " WHERE " + table + ". is_deleted='0'", mapper);
     }
 
     @Override
@@ -74,11 +74,20 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
     }
 
     @Override
-    public void save(T item) throws DaoException {
+    public boolean save(T item) throws DaoException {
         Map<String, Object> fields = getFields(item);
         String query = item.getId() == null ? generateInsertQuery(fields) : generateUpdateQuery(fields);
         // check sequence order
         executeUpdate(query, fields.values());
+        return true;
+    }
+
+    @Override
+    public boolean delete(long id) throws DaoException{
+        String table = getTableName();
+        RowMapper<T> mapper = (RowMapper<T>) RowMapper.create(table);
+        executeQueryNoResult("UPDATE " + table + " SET is_deleted='1' WHERE " + table + ".id = " + id);
+        return true;
     }
 
     public Optional<T> executeForSingleResult(String query, RowMapper<T> mapper, Object... params) throws DaoException {
@@ -103,7 +112,6 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
 
     protected abstract Map<String, Object> getFields(T item);
 
-    //? class query generator
     String generateInsertQuery(Map<String, Object> fields) {
         throw new UnsupportedOperationException();
     }

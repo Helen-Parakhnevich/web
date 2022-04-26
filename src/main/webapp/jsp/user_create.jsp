@@ -32,55 +32,33 @@
     </nav>
     <c:choose>
       <c:when test="${isAdmin}">
-        <div class="page-header"><fmt:message key="page-header.lot-create.admin"/></div>
+        <div class="page-header"><fmt:message key="page-header.user-create.admin"/></div>
       </c:when>
       <c:otherwise>
-        <div class="page-header"><fmt:message key="page-header.lot-create"/></div>
+        <div class="page-header"><fmt:message key="page-header.user-create"/></div>
       </c:otherwise>
     </c:choose>
-      <div class="lot">
-        <form class="form-lot" method="post" action="controller?command=create_lot">
+      <div class="user">
+        <form class="form-user" method="post" action="controller?command=create_user">
            <div>
-             <label><fmt:message key="lot.title" /></label>
-             <input class="text-input" type="text" name="title" required/>
-           </div>
-            <div>
-              <label><fmt:message key="lot.category" /></label>
-              <select name="category_id" placeholder="Choose">
-                <c:forEach items="${sessionScope.categories}" var="category">
-                  <c:choose>
-                     <c:when test="${category.id==1}">
-                       <option value="${category.id}" selected>${category.name}</option>
-                     </c:when>
-                     <c:otherwise>
-                        <option value="${category.id}">${category.name}</option>
-                      </c:otherwise>
-                  </c:choose>
-                </c:forEach>
-               </select>
-            </div>
-            <div class="type">
-              <input type="radio" id="direct" name="type" value="direct" checked>
-              <label for="direct"><fmt:message key="type.direct"/></label><br>
-              <input type="radio" id="reverse" name="type" value="reverse">
-              <label for="reverse"><fmt:message key="type.reverse"/></label><br>
-            </div>
-           <div>
-              <label><fmt:message key="lot.start-price" /></label>
-                 <label> $</label>
-                 <input  type="number" name="start_price" min=10 pattern="\d\.\d{3}" required />
+             <label><fmt:message key="user.first-name" /></label>
+             <input class="text-input" type="text" name="first_name" maxlength="20" pattern="\w{3,20}" required/>
            </div>
            <div>
-              <label><fmt:message key="lot.date-start" /></label>
-              <input  type="datetime-local" name="date_start" required />
+             <label><fmt:message key="user.last-name" /></label>
+             <input class="text-input" type="text" name="last_name" maxlength="20" pattern="\w{3,20}" required/>
            </div>
            <div>
-             <label><fmt:message key="lot.date-end" /></label>
-             <input  type="datetime-local" name="date_end" required />
+             <label><fmt:message key="user.login" /></label>
+             <input class="text-input" type="text" name="login" maxlength="10" pattern="[\d|\w]{1,10}" required/>
            </div>
            <div>
-             <label><fmt:message key="lot.description" /></label>
-             <input class="text-input" id="description" type="text" name="description" />
+             <label><fmt:message key="user.password" /></label>
+             <input class="text-input" type="text" name="password" maxlength="10" pattern="[\d|\w]{1,10}" required/>
+           </div>
+           <div>
+             <input type="checkbox" name="isAdmin">
+             <label for="isAdmin"><fmt:message key="user.is-admin" /></label><br>
            </div>
            <div>
               <button class="btn-create" type="submit"><fmt:message key="save" /></button>
@@ -92,19 +70,19 @@
   </body>
 
   <style>
-    .lot {
+    .user {
        display: flex;
        justify-content: center;
        flex-direction: row;
        margin-top: 1%;
        border-top: 1px solid gainsboro;
    }
-   .form-lot {
+   .form-user {
      display: flex;
      justify-content: space-between;;
      flex-direction: column;
-     height: 400px;
-     width: 45%;
+     height: 300px;
+     width: 20%;
      margin: 2%;
      padding: 5% 10%;
      border: 1px solid gainsboro;
@@ -126,10 +104,6 @@
    .text-input {
      width: 100%;
    }
-
-  #description {
-    eight: 50px;
-  }
 
    input:valid+span:after {
       content: "✓";

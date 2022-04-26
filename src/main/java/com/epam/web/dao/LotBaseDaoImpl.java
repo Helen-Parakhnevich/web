@@ -9,7 +9,7 @@ import com.epam.web.mapper.LotBaseRowMapper;
 import com.epam.web.mapper.RowMapper;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -29,8 +29,8 @@ public class LotBaseDaoImpl extends AbstractDao<LotBase> implements LotBaseDao {
     public static final String USER_ID = "user_id";
     public static final String IS_PAID = "is_paid";
 
-    private static final String CREATE_LOT = "insert into lot (category_id, type, title, start_price, date_start, date_end, duration, user_id)" +
-            "values(?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String CREATE_LOT = "INSERT INTO lot (category_id, type, title, start_price, date_start, date_end, user_id)" +
+            " values(?, ?, ?, ?, ?, ?, ?)";
 
     public LotBaseDaoImpl(ProxyConnection connection) {
         super(connection, new LotBaseRowMapper(), TABLE);
@@ -41,13 +41,12 @@ public class LotBaseDaoImpl extends AbstractDao<LotBase> implements LotBaseDao {
         LotType type = lot.getType();
         Long categoryId = lot.getCategoryId();
         String title = lot.getTitle();
-        Timestamp dateStart = lot.getDateStart();
-        Timestamp dateEnd = lot.getDateStart();
-        Integer duration = lot.getDuration();
+        LocalDateTime dateStart = lot.getDateStart();
+        LocalDateTime dateEnd = lot.getDateStart();
         BigDecimal startPrice = lot.getStartPrice();
         Long userId = lot.getUserId();
         //String description = lot.getDescription();
-        executeForSingleResult(CREATE_LOT, new LotBaseRowMapper(), categoryId, type, title, startPrice, dateStart, dateEnd, duration, userId);
+        executeQueryNoResult(CREATE_LOT, categoryId, type.getTitle(), title, startPrice, dateStart, dateEnd, userId);
         return true;
     }
 
@@ -57,8 +56,8 @@ public class LotBaseDaoImpl extends AbstractDao<LotBase> implements LotBaseDao {
     }
 
     @Override
-    public void save(LotBase item) throws DaoException {
-        super.save(item);
+    public boolean save(LotBase item) throws DaoException {
+        return super.save(item);
     }
 
     @Override
@@ -66,10 +65,6 @@ public class LotBaseDaoImpl extends AbstractDao<LotBase> implements LotBaseDao {
         return super.executeForSingleResult(query, mapper, params);
     }
 
-    @Override
-    public Optional<LotBase> getById(Long id) throws DaoException {
-        return super.getById(id);
-    }
 
     @Override
     public Optional<LotBase> removeById(Long id) throws DaoException {
@@ -109,5 +104,10 @@ public class LotBaseDaoImpl extends AbstractDao<LotBase> implements LotBaseDao {
     @Override
     protected String getRowMapperTableName() {
         return LotBase.TABLE;
+    }
+
+    @Override
+    public Optional<LotBase> getById(long id) throws DaoException {
+        return super.getById(id);
     }
 }

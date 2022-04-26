@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AllUserCommand implements Command {
-    private static final String USER_TABLE = "jsp/user_table.jsp";
+    private static final String USER_TABLE = "/jsp/user_table.jsp";
 
     private final UserServiceImpl service;
 

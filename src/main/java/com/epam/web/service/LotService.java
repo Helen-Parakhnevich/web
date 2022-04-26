@@ -10,10 +10,12 @@ import java.util.Optional;
 
 public interface LotService {
 
-    boolean create(Lot lot) throws ServiceException;
+    boolean create(LotBase lot) throws ServiceException;
     Optional<Lot> getById(long id) throws ServiceException;
     Optional<Lot> getByIdWithBid(long id) throws ServiceException;
     List<LotBase> getAll() throws ServiceException;
+    boolean deleteLot(long id) throws ServiceException;
+    List<Lot> getRequestLot() throws ServiceException;
     List<Lot> getCurrentByType(LotType type) throws ServiceException;
     List<Lot> getDirectByCategory(long id) throws ServiceException;
 

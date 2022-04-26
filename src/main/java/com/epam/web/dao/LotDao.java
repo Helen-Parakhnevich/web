@@ -8,14 +8,13 @@ import com.epam.web.exception.DaoException;
 import java.util.List;
 import java.util.Optional;
 
-public interface LotDao {
+public interface LotDao extends Dao<Lot> {
 
-    boolean create(Lot lot) throws DaoException;
-    Optional<Lot> getById(Long id) throws DaoException;
     Optional<Lot> getByIdWithBid(Long id) throws DaoException;
-    List<Lot> getAll() throws DaoException;
     List<Lot> getCurrentByType(LotType type) throws DaoException;
     List<Lot> getDirectByCategory(Long id) throws DaoException;
+    List<Lot> getRequestLot() throws DaoException;
     List<Lot> getReversByCategory(Category category) throws DaoException;
     List<Lot> getSold(Category category) throws DaoException;
+
 }

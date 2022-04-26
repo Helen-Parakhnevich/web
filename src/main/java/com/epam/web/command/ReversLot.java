@@ -25,8 +25,8 @@ public class ReversLot implements Command {
 
         List<Lot> lots = new ArrayList<>();
         lots = service.getCurrentByType(LotType.REVERSE);
-        req.getSession().setAttribute("lots", lots);
-        req.getSession().setAttribute("type", "reverse");
+        req.setAttribute("lots", lots);
+        req.setAttribute("type", "reverse");
         return CommandResult.forward(CATALOG_PAGE);
 
     }

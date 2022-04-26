@@ -1,12 +1,11 @@
 package com.epam.web.entity;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.sql.Blob;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -28,14 +27,12 @@ public class LotBase extends Entity {
     public static final String DESCRIPTION = "description";
     public static final String IMAGE = "img";
 
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    private long id;
 
+    private Long id;
     private LotType type;
     private Long categoryId;
-    private Timestamp dateStart;
-    private Timestamp dateEnd;
+    private LocalDateTime dateStart;
+    private LocalDateTime dateEnd;
     private String stringDateEnd;
     private Integer duration;
     private BigDecimal startPrice;
@@ -47,10 +44,32 @@ public class LotBase extends Entity {
     private Blob img;
     private String imgBase64;
 
-    public LotBase(Long id, Long categoryId, LotType type, String title) {
-        super(id);
+    public LotBase(Long id, Long userId, Long categoryId, LotType type, String title) {
+        this.id = id;
+        this.userId = userId;
         this.type = type;
         this.categoryId = categoryId;
+        this.title = title;
+    }
+
+//    public LotBase(long id, LotType type, Long categoryId, String title, BigDecimal startPrice, Timestamp dateStart, Timestamp dateEnd) {
+//        this.id = id;
+//        this.type = type;
+//        this.categoryId = categoryId;
+//        this.dateStart = dateStart;
+//        this.dateEnd = dateEnd;
+//        this.startPrice = startPrice;
+//        this.title = title;
+//    }
+
+    public LotBase(long id, Long categoryId, LotType type, String title, BigDecimal startPrice, LocalDateTime dateStart, LocalDateTime dateEnd, Long userId) {
+        this.id = id;
+        this.userId = userId;
+        this.type = type;
+        this.categoryId = categoryId;
+        this.startPrice = startPrice;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
         this.title = title;
     }
 }

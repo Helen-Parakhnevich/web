@@ -8,6 +8,7 @@
 <html>
   <head>
       <link rel="stylesheet" href="./static/styles/style.css">
+      <link rel="stylesheet" href="./static/styles/style_table.css">
   </head>
 
   <body>
@@ -22,113 +23,53 @@
     <table>
        <caption class="table-caption" align="left">
         <label><fmt:message key="user.caption"/></label>
-        <button class="btn-add" type="submit">+</button>
+        <button class="btn-add" type="submit" onclick="location.href= '${pageContext.request.contextPath}/controller?command=page_new_user'">+</button>
        </caption>
        <thead class="table-header">
-       <tr>
-         <th>#<th>
-         <th><fmt:message key="user.first-name"/><th>
-         <th><fmt:message key="user.last-name"/><th>
-         <th><fmt:message key="user.login"/><th>
-         <th><fmt:message key="user.is-admin"/><th>
-         <th><fmt:message key="user.is-blocked"/><th>
+       <tr class="header-user">
+         <th>#</th>
+         <th><fmt:message key="user.first-name"/></th>
+         <th><fmt:message key="user.last-name"/></th>
+         <th><fmt:message key="user.login"/></th>
+         <th style='width:70px; text-align:center'><fmt:message key="user.is-admin"/></th>
+         <th style='width:70px; text-align:center'><fmt:message key="user.is-blocked"/></th>
+         <th style='width:100px'></th>
+         <th style='width:100px'></th>
        </tr>
        <thead>
        <tbody class="table-body">
        <c:forEach items="${users}" var="user" varStatus="counter">
-           <tr class="row">
-             <td><c:out value="${counter.count}"/><td>
-             <td><c:out value="${user.firstName}"/><td>
-             <td><c:out value="${user.lastName}"/><td>
-             <td><c:out value="${user.login}"/><td>
-             <td><c:out value="${user.isAdmin}"/><td>
-             <td><c:out value="${user.isBlocked}"/><td>
-             <%-- <c:if test="${user.isAdmin}">
-               <td><td>
-             </c:if>
-             <c:if test="${user.isBlocked}">
-                <td><td>
-             </c:if> --%>
+           <tr class="row-user">
+             <td><c:out value="${counter.count}"/></td>
+             <td><c:out value="${user.firstName}"/></td>
+             <td><c:out value="${user.lastName}"/></td>
+             <td><c:out value="${user.login}"/></td>
+             <td style='font-size:20px; text-align:center'>
+               <c:if test="${user.isAdmin}"><b>&#10003</b></c:if>
+             </td>
+             <td style='font-size:20px; text-align:center'>
+               <c:if test="${user.isBlocked}"><b>&#10003</b</c:if>
+             </td>
+             <td style='width: 50px'>
+               <c:if test="${user.id != sessionScope.userId}">
+                 <button class="btn-block" type="submit" onclick="location.href= '${pageContext.request.contextPath}/controller?command=block_unblock_user&userId=${user.id}'">
+                   <c:if test="${user.isBlocked}"> <fmt:message key="user.btn-unblock" /></c:if>
+                   <c:if test="${!user.isBlocked}"> <fmt:message key="user.btn-block" /></c:if>
+                 </button>
+               </c:if>
+             </td>
+             <td style='width: 50px'>
+                <c:if test="${user.id != sessionScope.userId}">
+                  <button class="btn-delete" type="submit" onclick="location.href= '${pageContext.request.contextPath}/controller?command=delete_user&userId=${user.id}'">
+                    <fmt:message key="user.btn-delete"/>
+                  </button>
+                </c:if>
+             </td>
            </tr>
        </c:forEach>
        <tbody>
     </table>
     </div>
   </body>
-
-  <style>
-
-  table {
-    border-collapse: collapse;
-    border-spacing: 0;
-    width: 100%;
-    border: 1px solid #ddd;
-  }
-
-  .table-caption, .table-header {
-    text-transform: uppercase;
-  }
-
-  .table-caption {
-    font-weight: bold;
-  }
-
-  .table-header {
-    background-color: rgb(221, 221, 221);;
-    font-weight: normal;
-    font-size: 12px;
-  }
-
-  .table-body {
-    overflow-x: auto;
-  }
-
-  /* Style table headers and table data */
-  th, td {
-    text-align: left;
-    padding: 16px;
-  }
-
-  th:first-child, td:first-child {
-    text-align: left;
-  }
-
-  /* Zebra-striped table rows */
-  tr:nth-child(even) {
-    background-color: #f2f2f2
-  }
-
-  .container {
-     display: grid;
-     position: relative;
-     margin: 3%;
-  }
-
-  .btn-add {
-    background-color: #555555;
-    border: none;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 30px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 18px;
-    margin: 4px 2px;
-    border-radius: 50%;
-  }
-
-  .btn-add:hover {
-    background-color: #7d7b7b
-  }
-
-  .btn-add:active {
-    background-color: #7d7b7b;
-    transform: translateY(1px);
-  }
-
-  </style>
 
 </html>

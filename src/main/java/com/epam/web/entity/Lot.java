@@ -1,12 +1,11 @@
 package com.epam.web.entity;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.sql.Blob;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -33,14 +32,12 @@ public class Lot extends Entity {
     public static final String BID_USER_FIRST_NAME = "bid_user_first_name";
     public static final String BID_USER_LAST_NAME = "bid_user_last_name";
 
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    private long id;
 
+    private Long id;
     private LotType type;
     private Long categoryId;
-    private Timestamp dateStart;
-    private Timestamp dateEnd;
+    private LocalDateTime dateStart;
+    private LocalDateTime dateEnd;
     private String stringDateEnd;
     private Integer duration;
     private BigDecimal startPrice;
@@ -57,7 +54,7 @@ public class Lot extends Entity {
     private String bidUserLastName;
 
     public Lot(Long id, Long categoryId, LotType type, String title) {
-        super(id);
+        this.id = id;
         this.type = type;
         this.categoryId = categoryId;
         this.title = title;

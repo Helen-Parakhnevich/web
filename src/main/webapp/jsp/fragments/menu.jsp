@@ -25,7 +25,7 @@
                     <c:forEach items="${sessionScope.categories}" var="category">
                     <form class="category" method="post" action="${pageContext.request.contextPath}/controller?command=direct_lot_by_category">
                           <input  name="categoryId" value="${category.id}" type="hidden">
-                          <button class="button" id="button${loop.index}" type="submit">${category.name}</button>
+                          <button class="button" id="button${loop.index}" onclick="sessionStorage.setItem('currentCategoryId', ${category.id})" type="submit" >${category.name}</button>
                      </form>
                     </c:forEach>
                     </ul>
@@ -34,7 +34,7 @@
             <div class="dropdown"><a>SELL</a>
                 <div class="dropdown-menu">
                     <ul>
-                        <li><a href="${pageContext.request.contextPath}/controller?command=request_for_sale">Request for sale</a></li>
+                        <li><a href="${pageContext.request.contextPath}/controller?command=page_new_lot">Request for sale</a></li>
                         <li><a href="#">Sell at reverse auction</a></li>
                     </ul>
                 </div>

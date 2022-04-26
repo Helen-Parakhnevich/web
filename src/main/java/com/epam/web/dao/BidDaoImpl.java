@@ -7,6 +7,7 @@ import com.epam.web.mapper.BidRowMapper;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -37,6 +38,21 @@ public class BidDaoImpl extends AbstractDao<Bid> implements BidDao {
     @Override
     public Optional<Bid> removeById(Long id) throws DaoException {
         return Optional.empty();
+    }
+
+    @Override
+    public List<Bid> getAll() throws DaoException {
+        return super.getAll();
+    }
+
+    @Override
+    public Optional<Bid> getById(long id) throws DaoException {
+        return super.getById(id);
+    }
+
+    @Override
+    public boolean save(Bid item) throws DaoException {
+       return super.save(item);
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.epam.web.service.UserServiceImpl;
 public class CommandFactory {
 
     private static final String LOT_CREATE = "/jsp/lot_create.jsp";
+    private static final String USER_CREATE = "/jsp/user_create.jsp";
 
     private final DaoHelperFactory daoHelperFactory = new DaoHelperFactory();
 
@@ -30,10 +31,22 @@ public class CommandFactory {
                 return new ShowLotCommand(new LotServiceImpl(daoHelperFactory));
             case "make_bid":
                 return new CreateBidCommand(new BidServiceImpl(daoHelperFactory));
-            case "request_for_sale":
-                return new ShowPageCommand(LOT_CREATE);
+            case "create_lot":
+                return new CreateLotCommand(new LotServiceImpl(daoHelperFactory));
+            case "delete_lot":
+                return new DeleteLot(new LotServiceImpl(daoHelperFactory));
+            case "create_user":
+                return new CreateUserCommand(new UserServiceImpl(daoHelperFactory));
+            case "block_unblock_user":
+                return new BlockUnblockUserCommand(new UserServiceImpl(daoHelperFactory));
+            case "delete_user":
+                return new DeleteUser(new UserServiceImpl(daoHelperFactory));
             case "language":
                 return new LanguageCommand();
+            case "page_new_lot":
+                return new ShowPageCommand(LOT_CREATE);
+            case "page_new_user":
+                return new ShowPageCommand(USER_CREATE);
 //            case "back":
 //                return new BackCommand();
             default:

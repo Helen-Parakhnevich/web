@@ -21,7 +21,6 @@ public class LoginCommand implements Command {
 
     private final UserServiceImpl service;
 
-
     public LoginCommand(UserServiceImpl service) {
         this.service = service;
     }
@@ -37,10 +36,15 @@ public class LoginCommand implements Command {
         if (user.isPresent()) {
             HttpSession session = req.getSession();
             User registeredUser = user.get();
-            session.setAttribute("userId", registeredUser.getId());
-            session.setAttribute("isAdmin", registeredUser.getIsAdmin());
-            session.setAttribute("categories", categories);
-            result  = CommandResult.redirect(MAIN_PAGE);
+            if (!registeredUser.getIsBlocked()) {
+                session.setAttribute("userId", registeredUser.getId());
+                session.setAttribute("isAdmin", registeredUser.getIsAdmin());
+                session.setAttribute("categories", categories);
+                result = CommandResult.redirect(MAIN_PAGE);
+            } else {
+                req.setAttribute("errorMessage", "Your account is blocked ");
+                result = CommandResult.forward(LOGIN_PAGE);
+            }
 
         } else {
             req.setAttribute("errorMessage", "Invalid credential ");

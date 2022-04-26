@@ -25,7 +25,7 @@ public enum LotType {
         }
     }
 
-    public static LotType geTypeByTitle(String title) {
+    public static LotType getTypeByTitle(String title) {
         return LOOKUP_MAP.get(title);
     }
 

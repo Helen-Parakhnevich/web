@@ -1,6 +1,5 @@
 package com.epam.web.entity;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,10 +17,7 @@ public class User extends Entity {
     public static final String IS_BLOCKED = "is_blocked";
     public static final String PASSWORD = "password";
 
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
     private Long id;
-
     private String firstName;
     private String lastName;
     private String login;

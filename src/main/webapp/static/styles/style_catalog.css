@@ -15,7 +15,6 @@
 }
 
 .item:hover {
-
     border: 1px solid rgb(185, 184, 184);
     -webkit-box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
     box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
@@ -24,12 +23,11 @@
 .img-container {
     position: relative;
     overflow: hidden;
-    width: 23rem;
+    width: 22.9rem;
     height: 12rem;
 }
 
 .img-container img {
-
     position: absolute;
     top: 30%;
     left: 30%;

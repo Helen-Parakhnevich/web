@@ -28,8 +28,8 @@ public class CategoryDaoImpl extends AbstractDao<Category> implements CategoryDa
     }
 
     @Override
-    public void save(Category item) throws DaoException {
-        super.save(item);
+    public boolean save(Category item) throws DaoException {
+        return super.save(item);
     }
 
     @Override

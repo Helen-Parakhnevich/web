@@ -36,7 +36,14 @@
             <div class="item">
                 <div class="img-container">
                     <div>
-                      <img src="data:image/jpeg;base64,${item.imgBase64}" width=100% height=100%>
+                       <c:choose>
+                          <c:when test="${empty item.imgBase64}" >
+                            <img src="static/img/no-image.png" width=100% height=100%>
+                          </c:when>
+                          <c:otherwise>
+                            <img src="data:image/jpeg;base64,${item.imgBase64}" width=100% height=100%>
+                          </c:otherwise>
+                       </c:choose>
                       <c:if test="${item.type=='REVERSE'}">
                         <button class="ico-revers"></button>
                       </c:if>
@@ -55,7 +62,7 @@
                         <p>CURRENT BID: <span style="font-weight:bold;">$<fmt:formatNumber maxFractionDigits = "0" value="${item.bidSum}"/> from ${item.bidUserFirstName} ${item.bidUserLastName}</span></p>
                       </c:otherwise>
                     </c:choose>
-                    <p class="end" hidden>ENDS: <span id="date_end${loop.index}" style="font-weight:bold;">${item.stringDateEnd}</span></p>
+                    <p class="end" hidden>ENDS: <span id="date_end${loop.index}" style="font-weight:bold;">${item.dateEnd}</span></p>
                     <p>ENDS IN: <span id="timer${loop.index}" style="font-weight:bold;"></span></p>
                 </div>
             </div>
@@ -97,11 +104,9 @@
                  border: none;
                  text-decoration: underline;
                  background-color: white;
+                 cursor: pointer;
              }
 
-             .item-header {
-                  cursor: pointer;
-             }
 
              .ico-revers {
                width: 35px;

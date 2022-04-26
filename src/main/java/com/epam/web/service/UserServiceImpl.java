@@ -5,6 +5,7 @@ import com.epam.web.dao.DaoHelper;
 import com.epam.web.dao.DaoHelperFactory;
 import com.epam.web.dao.UserDao;
 import com.epam.web.entity.User;
+import com.epam.web.exception.DaoException;
 import com.epam.web.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,6 +43,46 @@ public class UserServiceImpl implements UserService {
             List<User> users = userDao.getAll();
             return users;
         } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public boolean createUser(User user) throws ServiceException {
+        try (DaoHelper daoHelper= daoHelperFactory.create()) {
+            daoHelper.startTransaction();
+            UserDao userDao = daoHelper.createUserDao();
+            daoHelper.endTransaction();
+            return userDao.create(user);
+        } catch (DaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public boolean blockUnblockUser(long id) throws ServiceException {
+        try (DaoHelper daoHelper= daoHelperFactory.create()) {
+            daoHelper.startTransaction();
+            UserDao userDao = daoHelper.createUserDao();
+            daoHelper.endTransaction();
+            return userDao.blockUnblockUser(id);
+        } catch (DaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public boolean deleteUser(long id) throws ServiceException {
+        try (DaoHelper daoHelper= daoHelperFactory.create()) {
+            daoHelper.startTransaction();
+            UserDao userDao = daoHelper.createUserDao();
+            boolean successDelete = userDao.delete(id);
+            daoHelper.endTransaction();
+            return successDelete;
+        } catch (DaoException e) {
             LOGGER.error(e.getMessage());
             throw new ServiceException(e);
         }
