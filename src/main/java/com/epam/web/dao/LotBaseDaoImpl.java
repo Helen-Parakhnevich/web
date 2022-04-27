@@ -65,6 +65,7 @@ public class LotBaseDaoImpl extends AbstractDao<LotBase> implements LotBaseDao {
     }
 
     @Override
+    // test
     public boolean updateLot(LotBase lot) throws DaoException {
         executeQueryNoResult(UPDATE_LOT_BY_ID, lot.getCategoryId(), lot.getType().getTitle(), lot.getTitle(), lot.getStartPrice(),
                               lot.getDateStart(), lot.getDateEnd(), lot.getId());
