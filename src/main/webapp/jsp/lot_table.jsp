@@ -43,7 +43,7 @@
        <c:forEach items="${lots}" var="lot" varStatus="counter">
            <tr class="row-auction">
              <td><c:out value="${counter.count}"/></td>
-             <td class="lot-title"><a>${lot.title}"</a></td>
+             <td class="lot-title"><a href="${pageContext.request.contextPath}/controller?command=edit_lot&lotId=${lot.id}">${lot.title}</a></td>
              <td><c:out value="${lot.type}"/></td>
              <td><c:out value="${lot.categoryId}"/></td>
              <td><c:out value="${lot.dateStart}"/></td>
@@ -54,8 +54,8 @@
                <c:if test="${lot.isPaid}"><b>&#10003</b</c:if>
              </td>
              <td style='width: 50px; text-align:center'>
-                <button class="btn-delete" type="submit" onclick="location.href= '${pageContext.request.contextPath}/controller?command=delete_lot&lotId=${lot.id}'">
-                   <fmt:message key="user.btn-delete"/>
+                <button class="btn-delete" type="submit" onclick="location.href='${pageContext.request.contextPath}/controller?command=delete_lot&lotId=${lot.id}'">
+                   <fmt:message key="btn-delete"/>
                 </button>
              </td>
            </tr>

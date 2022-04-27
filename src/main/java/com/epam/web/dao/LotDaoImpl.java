@@ -60,6 +60,7 @@ public class LotDaoImpl extends AbstractDao<Lot> implements LotDao {
             "lot_max_bid.is_paid AS is_paid," +
             "lot_max_bid.img AS img," +
             "lot_max_bid.sum_bid AS bid_sum," +
+            "'' as seller," +
             "bids.id AS bid_id," +
             "bids.user_id AS bid_user_id," +
             "users.first_name AS bid_user_first_name," +
@@ -76,10 +77,6 @@ public class LotDaoImpl extends AbstractDao<Lot> implements LotDao {
     private static final String CONDITION_BY_TYPE_BY_STATUS = "WHERE lots.date_start <= curdate() " +
                                 "AND lots.date_end >= curdate() AND lots.type = ? AND lots.status = ?";
 
-    //private static final String GET_CURRENT_LOT_BY_TYPE = "SELECT * FROM LOT WHERE date_start <= curdate() AND date_end >= curdate() " +
-    //        "AND type = ?";
-    //private static final String GET_CURRENT_LOT_BY_TYPE_BY_CATEGORY = GET_CURRENT_LOT_BY_TYPE + " AND category_id = ?";
-
     private static final String GET_LOT_BY_ID_WITH_BID =
             GET_LOT_WITH_MAX_BID_PART_1 + CONDITION_BY_ID + GET_LOT_WITH_MAX_BID_PART_2;
 
@@ -88,8 +85,6 @@ public class LotDaoImpl extends AbstractDao<Lot> implements LotDao {
 
     private static final String GET_CURRENT_WITH_MAX_BID_LOT_BY_TYPE_BY_STATUS =
             GET_LOT_WITH_MAX_BID_PART_1 + CONDITION_BY_TYPE_BY_STATUS + GET_LOT_WITH_MAX_BID_PART_2;
-
-    private static final String GET_REQUEST_LOT = "SELECT * FROM lot INNER JOIN user on lot.user_id=user.id WHERE lot.is_deleted='0' AND lot.status='NEW'";
 
     public LotDaoImpl(ProxyConnection connection) {
         super(connection, new LotRowMapper(), TABLE);
@@ -109,11 +104,6 @@ public class LotDaoImpl extends AbstractDao<Lot> implements LotDao {
     public List<Lot> getDirectByCategory(Long id) throws DaoException {
         return executeQuery(GET_CURRENT_WITH_MAX_BID_LOT_BY_TYPE_BY_STATUS_BY_CATEGORY,
                              new LotRowMapper(), LotType.DIRECT.getTitle(), LotStatus.CURRENT.getTitle(), id);
-    }
-
-    @Override
-    public List<Lot> getRequestLot() throws DaoException {
-        return executeQuery(GET_REQUEST_LOT, new LotRowMapper());
     }
 
     @Override

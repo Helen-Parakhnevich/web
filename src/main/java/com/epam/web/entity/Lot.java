@@ -26,6 +26,7 @@ public class Lot extends Entity {
     public static final String TITLE = "title";
     public static final String DESCRIPTION = "description";
     public static final String IMAGE = "img";
+    public static final String SELLER = "seller";
     public static final String BID_ID = "bid_id";
     public static final String BID_SUM = "bid_sum";
     public static final String BID_USER_ID = "bid_user_id";
@@ -46,6 +47,7 @@ public class Lot extends Entity {
     private String title;
     private String description;
     private Blob img;
+    private String seller;
     private String imgBase64;
     private Long bidId;
     private BigDecimal bidSum;

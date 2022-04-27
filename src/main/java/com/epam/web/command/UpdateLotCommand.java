@@ -13,13 +13,13 @@ import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class CreateLotCommand implements Command {
+public class UpdateLotCommand implements Command {
 
     private static final String ERROR_PAGE = "/jsp/error-page.jsp";
 
     private final LotServiceImpl service;
 
-    public CreateLotCommand(LotServiceImpl service) {
+    public UpdateLotCommand(LotServiceImpl service) {
         this.service = service;
     }
 
@@ -28,6 +28,7 @@ public class CreateLotCommand implements Command {
         HttpSession session = req.getSession(false);
         Long userId = (Long) session.getAttribute("userId");
         boolean userIsAdmin = (boolean) session.getAttribute("isAdmin");
+        Long lotId = Long.parseLong(req.getParameter(LotBase.ID));
         String title = req.getParameter(LotBase.TITLE);
         Long categoryId = Long.parseLong(req.getParameter(LotBase.CATEGORY_ID));
         LotType type = LotType.getTypeByTitle(req.getParameter(LotBase.TYPE));
@@ -42,9 +43,9 @@ public class CreateLotCommand implements Command {
             throw new ServiceException(e);
         }
 
-        LotBase newLot = new LotBase(0L, categoryId, type, title, startPrice, dateStart, dateEnd, userId);
+        LotBase newLot = new LotBase(lotId, categoryId, type, title, startPrice, dateStart, dateEnd, userId);
 
-        if (service.create(newLot)) {
+        if (service.updateLot(newLot)) {
             if (userIsAdmin) {
                 result = CommandResult.redirect(req.getContextPath() + "/controller?command=all_lot");
             } else {
@@ -62,5 +63,4 @@ public class CreateLotCommand implements Command {
         LocalDateTime localDateTime = LocalDateTime.from(dateTimeFormatter.parse(dateTime));
         return localDateTime;
     }
-
 }

@@ -33,8 +33,8 @@
          <th><fmt:message key="lot.date-start"/></th>
          <th><fmt:message key="lot.date-end"/></th>
          <th><fmt:message key="lot.start-price"/></h>
-         <th><fmt:message key="lot.user"/></th>
-         <th><fmt:message key="lot.status"/></th>
+         <th><fmt:message key="lot.seller"/></th>
+         <th style='width:100px'></th>
          <th style='width:100px'></th>
        </tr>
        <thead>
@@ -48,8 +48,17 @@
              <td><c:out value="${lot.dateStart}"/></td>
              <td><c:out value="${lot.dateEnd}"/></td>
              <td>$<fmt:formatNumber maxFractionDigits = "0" value="${lot.startPrice}"/></td>
-             <td><c:out value="${lot.status}"/></td>
              <td><c:out value="${lot.seller}"/></td>
+             <td style='width: 50px; text-align:center'>
+                <button class="btn-approve" type="submit" onclick="location.href= '${pageContext.request.contextPath}/controller?command=approve_lot&lotId=${lot.id}'">
+                   <fmt:message key="btn-approve"/>
+                </button>
+             </td>
+             <td style='width: 50px; text-align:center'>
+                <button class="btn-delete" type="submit" onclick="location.href= '${pageContext.request.contextPath}/controller?command=delete_lot&lotId=${lot.id}'">
+                   <fmt:message key="btn-delete"/>
+                </button>
+             </td>
            </tr>
        </c:forEach>
        <tbody>

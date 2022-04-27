@@ -13,7 +13,6 @@ public interface LotDao extends Dao<Lot> {
     Optional<Lot> getByIdWithBid(Long id) throws DaoException;
     List<Lot> getCurrentByType(LotType type) throws DaoException;
     List<Lot> getDirectByCategory(Long id) throws DaoException;
-    List<Lot> getRequestLot() throws DaoException;
     List<Lot> getReversByCategory(Category category) throws DaoException;
     List<Lot> getSold(Category category) throws DaoException;
 

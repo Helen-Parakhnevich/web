@@ -26,23 +26,35 @@ public class LotBaseRowMapper implements RowMapper {
         Long userId = resultSet.getLong(Lot.USER_ID);
         Boolean isPaid = resultSet.getBoolean(Lot.IS_PAID);
         String title = resultSet.getString(Lot.TITLE);
-        //String description = resultSet.getString(Lot.DESCRIPTION);
         Blob imageData = resultSet.getBlob(Lot.IMAGE);
-
+        String seller = "";
+        if (isThereColumn(resultSet, Lot.SELLER)) {
+            seller = resultSet.getString(Lot.SELLER);
+        }
 
         LotBase lot = new LotBase(id, userId, categoryId, type, title);
         lot.setDateStart(dateStart);
         lot.setDateEnd(dateEnd);
         lot.setStartPrice(startPrice);
         lot.setStatus(status);
+        lot.setSeller(seller);
         lot.setUserId(userId);
         lot.setIsPaid(isPaid);
-        if (imageData!=null) {
+        if (imageData != null) {
             lot.setImg(imageData);
             lot.setImgBase64(Base64.getEncoder().encodeToString(imageData.getBytes(1, (int) imageData.length())));
         }
-        //lot.setDescription(description);
 
         return lot;
+    }
+
+    private boolean isThereColumn(ResultSet resultSet, String column) {
+        try {
+            resultSet.findColumn(column);
+            resultSet.findColumn(column);
+            return true;
+        } catch (SQLException e) {
+        }
+        return false;
     }
 }

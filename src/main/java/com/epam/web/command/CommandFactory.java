@@ -23,6 +23,8 @@ public class CommandFactory {
                 return new AllUserCommand(new UserServiceImpl(daoHelperFactory));
             case "all_lot":
                 return new AllLotCommand(new LotServiceImpl(daoHelperFactory));
+            case "all_request":
+                return new AllRequestLotCommand(new LotServiceImpl(daoHelperFactory));
             case "direct_lot_by_category":
                 return new DirectLotByCategory(new LotServiceImpl(daoHelperFactory));
             case "reverse_lot":
@@ -33,6 +35,12 @@ public class CommandFactory {
                 return new CreateBidCommand(new BidServiceImpl(daoHelperFactory));
             case "create_lot":
                 return new CreateLotCommand(new LotServiceImpl(daoHelperFactory));
+            case "approve_lot":
+                return new ApproveLotCommand(new LotServiceImpl(daoHelperFactory));
+            case "edit_lot":
+                return new EditLotCommand(new LotServiceImpl(daoHelperFactory));
+            case "update_lot":
+                return new UpdateLotCommand(new LotServiceImpl(daoHelperFactory));
             case "delete_lot":
                 return new DeleteLot(new LotServiceImpl(daoHelperFactory));
             case "create_user":

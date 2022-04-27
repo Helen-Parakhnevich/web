@@ -15,7 +15,9 @@ public interface LotService {
     Optional<Lot> getByIdWithBid(long id) throws ServiceException;
     List<LotBase> getAll() throws ServiceException;
     boolean deleteLot(long id) throws ServiceException;
-    List<Lot> getRequestLot() throws ServiceException;
+    boolean approveLot(long id)  throws ServiceException;
+    boolean updateLot(LotBase lot) throws ServiceException;
+    List<LotBase> getRequestLot() throws ServiceException;
     List<Lot> getCurrentByType(LotType type) throws ServiceException;
     List<Lot> getDirectByCategory(long id) throws ServiceException;
 

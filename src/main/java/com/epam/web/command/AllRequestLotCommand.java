@@ -1,6 +1,6 @@
 package com.epam.web.command;
 
-import com.epam.web.entity.Lot;
+import com.epam.web.entity.LotBase;
 import com.epam.web.exception.ServiceException;
 import com.epam.web.service.LotServiceImpl;
 
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AllRequestLotCommand implements  Command {
-    private static final String LOT_TABLE = "/jsp/lot_table.jsp";
+    private static final String REQUEST_TABLE = "/jsp/request_table.jsp";
 
     private final LotServiceImpl service;
 
@@ -21,10 +21,10 @@ public class AllRequestLotCommand implements  Command {
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
 
-        List<Lot> lots = new ArrayList<>();
+        List<LotBase> lots = new ArrayList<>();
         lots = service.getRequestLot();
         req.setAttribute("lots", lots);
-        return CommandResult.forward(LOT_TABLE);
+        return CommandResult.forward(REQUEST_TABLE);
 
     }
 }

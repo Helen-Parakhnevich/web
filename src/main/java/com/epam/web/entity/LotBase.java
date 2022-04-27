@@ -26,7 +26,7 @@ public class LotBase extends Entity {
     public static final String TITLE = "title";
     public static final String DESCRIPTION = "description";
     public static final String IMAGE = "img";
-
+    public static final String SELLER = "seller";
 
     private Long id;
     private LotType type;
@@ -41,6 +41,7 @@ public class LotBase extends Entity {
     private Boolean isPaid;
     private String title;
     private String description;
+    private String seller;
     private Blob img;
     private String imgBase64;
 

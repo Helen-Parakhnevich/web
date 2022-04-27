@@ -61,7 +61,7 @@
              <td style='width: 50px'>
                 <c:if test="${user.id != sessionScope.userId}">
                   <button class="btn-delete" type="submit" onclick="location.href= '${pageContext.request.contextPath}/controller?command=delete_user&userId=${user.id}'">
-                    <fmt:message key="user.btn-delete"/>
+                    <fmt:message key="btn-delete"/>
                   </button>
                 </c:if>
              </td>

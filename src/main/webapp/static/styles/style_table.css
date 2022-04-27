@@ -4,7 +4,7 @@
     border: 1px solid #ddd;
   }
 
-  .table-caption, .table-header, .btn-block, .btn-delete {
+  .table-caption, .table-header, .btn-block, .btn-delete, .btn-approve {
     text-transform: uppercase;
   }
 
@@ -35,16 +35,10 @@
     padding: 15px;
   }
 
-    .header-auction th,  .row-auction td {
+   .header-auction th,  .row-auction td {
       text-align: left;
       padding: 10px;
     }
-
-  .lot-title {
-      font-weight: bold;
-      text-decoration: underline;
-      cursor: pointer;
-  }
 
   th:first-child, td:first-child {
     text-align: left;
@@ -60,6 +54,9 @@
      margin: 3%;
      max-height: 100%;
      overflow: auto;
+  }
+  a.link {
+     color: black;
   }
 
   .btn-add {
@@ -87,6 +84,6 @@
     transform: translateY(1px);
   }
 
-  .btn-block, btn-delete {
+  .btn-block, btn-delete, btn-approve {
     width: 80px;
   }

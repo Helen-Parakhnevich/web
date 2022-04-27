@@ -66,10 +66,38 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
-    public List<Lot> getRequestLot() throws ServiceException {
+    public boolean approveLot(long id) throws ServiceException {
         try (DaoHelper daoHelper= daoHelperFactory.create()) {
-            LotDao lotDao = daoHelper.createLotDao();
-            List<Lot> requestLot= lotDao.getRequestLot();
+            daoHelper.startTransaction();
+            LotBaseDao lotDao = daoHelper.createLotBaseDao();
+            boolean successApprove = lotDao.approveLot(id);
+            daoHelper.endTransaction();
+            return successApprove;
+        } catch (DaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public boolean updateLot(LotBase lot) throws ServiceException {
+        try (DaoHelper daoHelper= daoHelperFactory.create()) {
+            daoHelper.startTransaction();
+            LotBaseDao lotDao = daoHelper.createLotBaseDao();
+            boolean successUpdate = lotDao.updateLot(lot);
+            daoHelper.endTransaction();
+            return successUpdate;
+        } catch (DaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<LotBase> getRequestLot() throws ServiceException {
+        try (DaoHelper daoHelper= daoHelperFactory.create()) {
+            LotBaseDao lotDao = daoHelper.createLotBaseDao();
+            List<LotBase> requestLot= lotDao.getRequestLot();
             return requestLot;
         } catch (DaoException e) {
             LOGGER.error(e.getMessage());
@@ -79,7 +107,6 @@ public class LotServiceImpl implements LotService {
 
     @Override
     public List<Lot> getCurrentByType(LotType type) throws ServiceException {
-
         try (DaoHelper daoHelper= daoHelperFactory.create()) {
             LotDao lotDao = daoHelper.createLotDao();
             List<Lot> directLot= lotDao.getCurrentByType(type);
@@ -92,7 +119,6 @@ public class LotServiceImpl implements LotService {
 
     @Override
     public List<Lot> getDirectByCategory(long id) throws ServiceException {
-
         try (DaoHelper daoHelper= daoHelperFactory.create()) {
             LotDao lotDao = daoHelper.createLotDao();
             List<Lot> directLot= lotDao.getDirectByCategory(id);

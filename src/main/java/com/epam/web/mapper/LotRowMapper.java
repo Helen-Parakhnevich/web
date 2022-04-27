@@ -25,18 +25,18 @@ public class LotRowMapper implements RowMapper {
         Long userId = resultSet.getLong(Lot.USER_ID);
         Boolean isPaid = resultSet.getBoolean(Lot.IS_PAID);
         String title = resultSet.getString(Lot.TITLE);
-        //String description = resultSet.getString(Lot.DESCRIPTION);
+        String seller = resultSet.getString(Lot.SELLER);
         Blob imageData = resultSet.getBlob(Lot.IMAGE);
         Long bidUserId = resultSet.getLong(Lot.BID_USER_ID);
         BigDecimal bidSum = resultSet.getBigDecimal(Lot.BID_SUM);
         String bidUserFirstName = resultSet.getString(Lot.BID_USER_FIRST_NAME);
         String bidUserLastName = resultSet.getString(Lot.BID_USER_LAST_NAME);
 
-
         Lot lot = new Lot(id, categoryId, type, title);
         lot.setDateStart(dateStart);
         lot.setDateEnd(dateEnd);
         lot.setStartPrice(startPrice);
+        lot.setSeller(seller);
         lot.setUserId(userId);
         lot.setIsPaid(isPaid);
         lot.setImg(imageData);
@@ -47,7 +47,6 @@ public class LotRowMapper implements RowMapper {
         lot.setBidSum(bidSum);
         lot.setBidUserFirstName(bidUserFirstName);
         lot.setBidUserLastName(bidUserLastName);
-        //lot.setDescription(description);
 
         return lot;
     }

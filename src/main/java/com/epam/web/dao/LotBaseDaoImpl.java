@@ -6,7 +6,6 @@ import com.epam.web.entity.LotBase;
 import com.epam.web.entity.LotType;
 import com.epam.web.exception.DaoException;
 import com.epam.web.mapper.LotBaseRowMapper;
-import com.epam.web.mapper.RowMapper;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -31,6 +30,11 @@ public class LotBaseDaoImpl extends AbstractDao<LotBase> implements LotBaseDao {
 
     private static final String CREATE_LOT = "INSERT INTO lot (category_id, type, title, start_price, date_start, date_end, user_id)" +
             " values(?, ?, ?, ?, ?, ?, ?)";
+    private static final String GET_REQUEST_LOT = "SELECT lot.*, CONCAT(user.first_name, ' ', user.last_name) as seller  FROM lot " +
+            "LEFT JOIN user on lot.user_id=user.id WHERE lot.is_deleted='0' AND lot.status='NEW'";
+    private static final String APPROVE_LOT = "UPDATE lot SET status='CURRENT' WHERE lot.id = ?";
+    private static final String UPDATE_LOT_BY_ID = "UPDATE lot set category_id=?, type=?, title=?, start_price=?, date_start=?, date_end=? "
+            + "where lot.id=?";
 
     public LotBaseDaoImpl(ProxyConnection connection) {
         super(connection, new LotBaseRowMapper(), TABLE);
@@ -45,55 +49,36 @@ public class LotBaseDaoImpl extends AbstractDao<LotBase> implements LotBaseDao {
         LocalDateTime dateEnd = lot.getDateStart();
         BigDecimal startPrice = lot.getStartPrice();
         Long userId = lot.getUserId();
-        //String description = lot.getDescription();
         executeQueryNoResult(CREATE_LOT, categoryId, type.getTitle(), title, startPrice, dateStart, dateEnd, userId);
         return true;
     }
 
     @Override
-    public List<LotBase> getAll() throws DaoException {
-        return super.getAll();
+    public List<LotBase> getRequestLot() throws DaoException {
+        return executeQuery(GET_REQUEST_LOT, new LotBaseRowMapper());
     }
 
     @Override
-    public boolean save(LotBase item) throws DaoException {
-        return super.save(item);
+    public boolean approveLot(long id) throws DaoException{
+        executeQueryNoResult(APPROVE_LOT, id);
+        return true;
     }
 
     @Override
-    public Optional<LotBase> executeForSingleResult(String query, RowMapper<LotBase> mapper, Object... params) throws DaoException {
-        return super.executeForSingleResult(query, mapper, params);
+    public boolean updateLot(LotBase lot) throws DaoException {
+        executeQueryNoResult(UPDATE_LOT_BY_ID, lot.getCategoryId(), lot.getType().getTitle(), lot.getTitle(), lot.getStartPrice(),
+                              lot.getDateStart(), lot.getDateEnd(), lot.getId());
+        return true;
     }
-
 
     @Override
     public Optional<LotBase> removeById(Long id) throws DaoException {
-        return Optional.empty();
-    }
-
-    @Override
-    protected List<LotBase> executeQuery(String query, RowMapper<LotBase> mapper, Object... params) throws DaoException {
-        return super.executeQuery(query, mapper, params);
-    }
-
-    @Override
-    protected boolean executeUpdate(String query, Object... params) throws DaoException {
-        return super.executeUpdate(query, params);
+        throw new UnsupportedOperationException("Not supported yet");
     }
 
     @Override
     protected Map<String, Object> getFields(LotBase item) {
         return null;
-    }
-
-    @Override
-    String generateInsertQuery(Map<String, Object> fields) {
-        return super.generateInsertQuery(fields);
-    }
-
-    @Override
-    String generateUpdateQuery(Map<String, Object> fields) {
-        return super.generateUpdateQuery(fields);
     }
 
     @Override
@@ -106,8 +91,4 @@ public class LotBaseDaoImpl extends AbstractDao<LotBase> implements LotBaseDao {
         return LotBase.TABLE;
     }
 
-    @Override
-    public Optional<LotBase> getById(long id) throws DaoException {
-        return super.getById(id);
-    }
 }
