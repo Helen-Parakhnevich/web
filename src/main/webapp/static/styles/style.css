@@ -1,0 +1,118 @@
+* {
+            -webkit-font-smoothing: antialiased;
+            -moz-font-smoothing: antialised;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 14px;
+        }
+
+         .top-header {
+              display: inline-flexbox;
+              font-family: "Zapfino", cursive;
+              /*font-family: "Brush Script MT", cursive;*/
+              font-size: 40px;
+              padding-left: 30%;
+              line-height: 2;
+         }
+
+          .top-header-right {
+              font-size: 15px;
+              vertical-align: bottom;
+          }
+
+        .top-nav {
+            border-top: 0.5px solid black;
+            border-bottom: 0.5px solid black;
+            text-transform: uppercase;
+        }
+
+.dropdown-menu {
+            position: absolute;
+            display: none;
+            float: left;
+            z-index: 1000;
+            min-width: 2rem;
+            top: 100%;
+            left: 0;
+            font-size: 12px;
+            text-align: left;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 4px;
+            -webkit-box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+            box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+
+        }
+
+        .dropdown:hover {
+
+            background-color: rgb(221, 221, 221);
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            background-color:transparent;
+            height: auto;
+            min-width: 1rem;
+        }
+
+        li {
+            width: 100%;
+        }
+
+        li a {
+            display: block;
+            color: black;
+            white-space: nowrap;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover {
+            background-color: rgb(221, 221, 221);
+        }
+
+        .top-nav-left {
+            float: right;
+            padding-right: 50px;
+        }
+
+        .top-nav-left a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .top-nav-left a:hover {
+            background-color: white;
+        }
+
+        .language li a:hover {
+            background-color: rgb(221, 221, 221);
+        }
+
+        .language li a {
+            display: block;
+        }
+
+
+

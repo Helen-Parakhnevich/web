@@ -1,0 +1,95 @@
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-font-smoothing: antialised;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #333333;
+        }
+
+        header.login {
+            height: 20%;
+        }
+
+        .text-header {
+            margin-top: 5%;
+            font-family: "Zapfino", cursive;
+            font-size: 40px;
+            line-height: 2;
+        }
+
+        .central-block {
+            display: flex;
+            justify-content: center;
+            gap: 100px;
+        }
+
+        .top-header-add {
+            font-size: 15px;
+        }
+
+        @media only screen and (max-width: 900px) {
+            .central-block {
+                display: flex;
+                flex-flow: column;
+                text-align: center;
+                gap: 10px;
+            }
+            header.login {
+                height: 10%;
+            }
+
+            .img {
+                display: none;
+            }
+        }
+
+        .login-box {
+            display: flex;
+            flex-flow: column;
+            justify-content: space-around;
+            text-align: center;
+            height: 350px;
+            width: 350px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 4px;
+            -webkit-box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+            box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+        }
+
+        .form-login {
+            display: flex;
+            gap: 30px;
+            flex-flow: column;
+            justify-content: space-around;
+
+        }
+
+        .login-row {
+            padding: 17px;
+            border-radius: 4px;
+            width: 80%;
+            border: 1px solid gray;
+
+        }
+
+        .login-row:focus {
+            border: 1.5px solid black;
+            -webkit-box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+            box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        body {
+            vertical-align: top;
+        }
