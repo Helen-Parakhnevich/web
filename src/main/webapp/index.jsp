@@ -25,7 +25,7 @@
                         <input class=" login-row" type="password" name="password" placeholder="Password" />
                     </div>
                     <div>
-                        <input class=" login-row" type="submit" />
+                        <input class=" login-row" type="submit" value="Log In"/>
                     </div>
                     <div>
                         <p style="color:black" ;>${errorMessage}</p>

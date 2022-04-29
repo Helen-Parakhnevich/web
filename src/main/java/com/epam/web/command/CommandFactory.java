@@ -5,6 +5,7 @@ import com.epam.web.exception.ServiceException;
 import com.epam.web.service.BidServiceImpl;
 import com.epam.web.service.LotServiceImpl;
 import com.epam.web.service.UserServiceImpl;
+import com.epam.web.validatior.LotValidator;
 
 public class CommandFactory {
 
@@ -34,7 +35,7 @@ public class CommandFactory {
             case "make_bid":
                 return new CreateBidCommand(new BidServiceImpl(daoHelperFactory));
             case "create_lot":
-                return new CreateLotCommand(new LotServiceImpl(daoHelperFactory));
+                return new CreateLotCommand(new LotServiceImpl(daoHelperFactory), new LotValidator());
             case "approve_lot":
                 return new ApproveLotCommand(new LotServiceImpl(daoHelperFactory));
             case "edit_lot":
@@ -43,20 +44,22 @@ public class CommandFactory {
                 return new UpdateLotCommand(new LotServiceImpl(daoHelperFactory));
             case "delete_lot":
                 return new DeleteLot(new LotServiceImpl(daoHelperFactory));
+            case "pay_lot":
+                return new PayLot(new LotServiceImpl(daoHelperFactory));
             case "create_user":
                 return new CreateUserCommand(new UserServiceImpl(daoHelperFactory));
             case "block_unblock_user":
                 return new BlockUnblockUserCommand(new UserServiceImpl(daoHelperFactory));
             case "delete_user":
                 return new DeleteUser(new UserServiceImpl(daoHelperFactory));
+            case "waiting_for_payment":
+                return new ForPaymentLot(new LotServiceImpl(daoHelperFactory));
             case "language":
                 return new LanguageCommand();
             case "page_new_lot":
                 return new ShowPageCommand(LOT_CREATE);
             case "page_new_user":
                 return new ShowPageCommand(USER_CREATE);
-//            case "back":
-//                return new BackCommand();
             default:
                 throw new IllegalArgumentException("Unknown command = " + command);
         }

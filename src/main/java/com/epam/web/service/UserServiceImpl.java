@@ -1,6 +1,5 @@
 package com.epam.web.service;
 
-import com.epam.web.Controller;
 import com.epam.web.dao.DaoHelper;
 import com.epam.web.dao.DaoHelperFactory;
 import com.epam.web.dao.UserDao;
@@ -17,7 +16,7 @@ public class UserServiceImpl implements UserService {
 
     private DaoHelperFactory daoHelperFactory;
 
-    private final Logger LOGGER = LogManager.getLogger(Controller.class);
+    private final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);
 
     public UserServiceImpl(DaoHelperFactory daoHelperFactory) {
         this.daoHelperFactory = daoHelperFactory;
@@ -30,7 +29,7 @@ public class UserServiceImpl implements UserService {
             UserDao userDao = daoHelper.createUserDao();
             Optional<User> user = userDao.findUserByLoginAndPassword(login,password);
             return user;
-        } catch (Exception e) {
+        } catch (DaoException e) {
             LOGGER.error(e.getMessage());
             throw new ServiceException(e);
         }
@@ -42,7 +41,19 @@ public class UserServiceImpl implements UserService {
             UserDao userDao = daoHelper.createUserDao();
             List<User> users = userDao.getAll();
             return users;
-        } catch (Exception e) {
+        } catch (DaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public Optional<User> getById(Long id) throws ServiceException {
+        try (DaoHelper daoHelper= daoHelperFactory.create()) {
+            UserDao userDao = daoHelper.createUserDao();
+            Optional<User> user = userDao.getById(id);
+            return user;
+        } catch (DaoException e) {
             LOGGER.error(e.getMessage());
             throw new ServiceException(e);
         }

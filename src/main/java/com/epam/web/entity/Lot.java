@@ -6,6 +6,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -60,5 +61,52 @@ public class Lot extends Entity {
         this.type = type;
         this.categoryId = categoryId;
         this.title = title;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Lot)) return false;
+        Lot lot = (Lot) o;
+        return Objects.equals(id, lot.id)
+                && type == lot.type
+                && Objects.equals(categoryId, lot.categoryId)
+                && Objects.equals(dateStart, lot.dateStart)
+                && Objects.equals(dateEnd, lot.dateEnd)
+                && Objects.equals(stringDateEnd, lot.stringDateEnd)
+                && Objects.equals(duration, lot.duration)
+                && Objects.equals(startPrice, lot.startPrice)
+                && Objects.equals(userId, lot.userId)
+                && Objects.equals(isPaid, lot.isPaid)
+                && Objects.equals(title, lot.title)
+                && Objects.equals(description, lot.description)
+                && Objects.equals(seller, lot.seller)
+                && Objects.equals(bidId, lot.bidId)
+                && Objects.equals(bidSum, lot.bidSum)
+                && Objects.equals(bidUserId, lot.bidUserId)
+                && Objects.equals(bidUserFirstName, lot.bidUserFirstName)
+                && Objects.equals(bidUserLastName, lot.bidUserLastName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, type, categoryId, dateStart, dateEnd, stringDateEnd, duration, startPrice, userId, isPaid, title, description, seller, bidId, bidSum, bidUserId, bidUserFirstName, bidUserLastName);
+    }
+
+    @Override
+    public String toString() {
+        return "Lot{" +
+                "id=" + id +
+                ", categoryId=" + categoryId +
+                ", dateStart=" + dateStart +
+                ", dateEnd=" + dateEnd +
+                ", duration=" + duration +
+                ", startPrice=" + startPrice +
+                ", userId=" + userId +
+                ", isPaid=" + isPaid +
+                ", bidId=" + bidId +
+                ", bidSum=" + bidSum +
+                ", bidUserId=" + bidUserId +
+                '}';
     }
 }

@@ -54,7 +54,7 @@
            </div>
            <div>
              <label><fmt:message key="user.password" /></label>
-             <input class="text-input" type="text" name="password" maxlength="10" pattern="[\d|\w]{1,10}" required/>
+             <input class="text-input" type="password" name="password" maxlength="10" pattern="[\d|\w]{1,10}" required/>
            </div>
            <div>
              <input type="checkbox" name="isAdmin">
@@ -62,7 +62,6 @@
            </div>
            <div>
               <button class="btn-create" type="submit"><fmt:message key="save" /></button>
-              <button class="btn-cancel" type="button"><fmt:message key="cancel" /></button>
            </div>
         </form>
       </div>

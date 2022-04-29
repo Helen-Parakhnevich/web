@@ -4,6 +4,7 @@ import com.epam.web.dao.BidDao;
 import com.epam.web.dao.DaoHelper;
 import com.epam.web.dao.DaoHelperFactory;
 import com.epam.web.entity.Bid;
+import com.epam.web.exception.DaoException;
 import com.epam.web.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,9 +27,9 @@ public class BidServiceImpl implements BidService {
             bidDao.create(bid);
             daoHelper.endTransaction();
             return true;
-        } catch (Exception e) {
+        } catch (DaoException e) {
             LOGGER.error(e.getMessage());
-            throw new ServiceException(e);
+            throw new ServiceException("Can't store bid", e);
         }
     }
 

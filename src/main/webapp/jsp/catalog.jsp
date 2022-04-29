@@ -9,18 +9,15 @@
 <fmt:setBundle basename="content"/>
 
 <html>
-
-<head>
+  <head>
     <link rel="stylesheet" href="./static/styles/style.css">
     <link rel="stylesheet" href="./static/styles/style_catalog.css">
     <script type="text/javascript" src="./static/scripts/timer.js"></script>
-</head>
-
-<body>
+  </head>
+  <body>
     <header class="top-header">
         <jsp:include page="./fragments/header.jsp" />
     </header>
-
     <nav class="top-nav">
         <jsp:include page="./fragments/menu.jsp" />
     </nav>
@@ -56,14 +53,23 @@
                   </form>
                     <c:choose>
                       <c:when test="${empty item.bidSum}" >
-                        <p>START PRICE: <span style="font-weight:bold;">$<fmt:formatNumber maxFractionDigits = "0" value="${item.startPrice}"/></span></p>
+                        <p class="label">
+                          <fmt:message key="lot.start-price"/>:
+                            <span style="font-weight:bold;">
+                              $<fmt:formatNumber maxFractionDigits = "0" value="${item.startPrice}"/>
+                            </span>
+                        </p>
                       </c:when>
                       <c:otherwise>
-                        <p>CURRENT BID: <span style="font-weight:bold;">$<fmt:formatNumber maxFractionDigits = "0" value="${item.bidSum}"/> from ${item.bidUserFirstName} ${item.bidUserLastName}</span></p>
+                        <p class="label">
+                          <fmt:message key="current-bid"/>:
+                            <span style="font-weight:bold; text-transform:none;">
+                              $<fmt:formatNumber maxFractionDigits = "0" value="${item.bidSum}"/> <fmt:message key="from"/> ${item.bidUserFirstName} ${item.bidUserLastName}
+                            </span></p>
                       </c:otherwise>
                     </c:choose>
                     <p class="end" hidden>ENDS: <span id="date_end${loop.index}" style="font-weight:bold;">${item.dateEnd}</span></p>
-                    <p>ENDS IN: <span id="timer${loop.index}" style="font-weight:bold;"></span></p>
+                    <p class="label"><fmt:message key="ends-on"/>: <span id="timer${loop.index}" style="font-weight:bold;"></span></p>
                 </div>
             </div>
         </c:forEach>
@@ -90,55 +96,57 @@
 
     </script>
 
+<style>
 
-    <style>
-    .page-header {
-            display: flex;
-            justify-content: center;
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 1%;
-        }
+.page-header {
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 1%;
+}
 
-             .item-header {
-                 border: none;
-                 text-decoration: underline;
-                 background-color: white;
-                 cursor: pointer;
-             }
+.label {
+    text-transform: uppercase;
+}
 
+.item-header {
+    border: none;
+    text-decoration: underline;
+    background-color: white;
+    cursor: pointer;
+}
 
-             .ico-revers {
-               width: 35px;
-               height: 38px;
-               display: inline-block;
-               vertical-align: top;
-               position: relative;
-               margin-left: 10px;
-               background-image: url('./static/img/arrow-blue.png');
-               background-size: 100%;
-               background-color: inherit;
-               border: none;
-               cursor: pointer;
-               float: right;
-               margin-top: 5px;
-               margin-right: 10px;
-             }
+.ico-revers {
+    width: 35px;
+    height: 38px;
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    margin-left: 10px;
+    background-image: url('./static/img/arrow-blue.png');
+    background-size: 100%;
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
+    float: right;
+    margin-top: 5px;
+    margin-right: 10px;
+}
 
-             .revers {
-              display: inline-block;
-               vertical-align: top;
-               position: relative;
-             -webkit-background-clip: text;
-             -moz-background-clip: text;
-             background-clip: text;
-             color: transparent;
-             text-shadow: rgba(255,255,255,0.5) 0px 3px 3px;
-             font-size: 10px;
-             color: yellowgreen;
-             }
-
-    </style>
+.revers {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: rgba(255, 255, 255, 0.5) 0px 3px 3px;
+    font-size: 10px;
+    color: yellowgreen;
+}
+</style>
 
 </body>
 

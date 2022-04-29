@@ -8,15 +8,17 @@
  <html>
 
         <div class="top-nav">
-            <div class="dropdown"><a href="${pageContext.request.contextPath}/controller?command=all_user"><fmt:message key="menu.users"/></a>
+            <div class="dropdown">
+              <a href="${pageContext.request.contextPath}/controller?command=all_user"><fmt:message key="menu.users"/></a>
             </div>
-            <div class="dropdown"><a href="${pageContext.request.contextPath}/controller?command=all_lot"><fmt:message key="menu.lots"/></a>
+            <div class="dropdown">
+              <a href="${pageContext.request.contextPath}/controller?command=all_lot"><fmt:message key="menu.lots"/></a>
             </div>
-            <div class="dropdown"><a href="${pageContext.request.contextPath}/controller?command=all_request"><fmt:message key="menu.requests"/></a>
+            <div class="dropdown">
+              <a href="${pageContext.request.contextPath}/controller?command=all_request"><fmt:message key="menu.requests"/></a>
             </div>
-            <div class="dropdown"><a><fmt:message key="menu.categories"/></a>
-            </div>
-            <div class="dropdown"><a><fmt:message key="menu.bids"/></a>
+            <div class="dropdown">
+              <a><fmt:message key="menu.categories"/></a>
             </div>
             <div class="top-nav-left">
                 <a href="${pageContext.request.contextPath}/controller?command=logout" class="login"><fmt:message key="menu.log-out"/></a>

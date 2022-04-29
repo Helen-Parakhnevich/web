@@ -4,7 +4,7 @@
     border: 1px solid #ddd;
   }
 
-  .table-caption, .table-header, .btn-block, .btn-delete, .btn-approve {
+  .table-caption, .table-header, .btn-block, .btn-delete, .btn-approve, .btn-pay {
     text-transform: uppercase;
   }
 

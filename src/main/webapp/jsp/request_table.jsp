@@ -1,6 +1,7 @@
  <%@ page contentType="text/html; charset=UTF-8" isELIgnored="false" %>
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+ <%@ taglib prefix="hp" uri ="/WEB-INF/custom.tld"%>
 
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="content"/>
@@ -22,7 +23,7 @@
     <div class="container">
     <table>
        <caption class="table-caption" align="left">
-        <label><fmt:message key="request.caption"/></label>
+        <label><fmt:message key="menu.requests"/></label>
        </caption>
        <thead class="table-header">
        <tr class="header-auction">
@@ -42,11 +43,11 @@
        <c:forEach items="${lots}" var="lot" varStatus="counter">
            <tr class="row-auction">
              <td><c:out value="${counter.count}"/></td>
-             <td class="lot-title"><a>${lot.title}"</a></td>
+             <td class="lot-title"><a style="color:black" href="${pageContext.request.contextPath}/controller?command=edit_lot&lotId=${lot.id}">${lot.title}"</a></td>
              <td><c:out value="${lot.type}"/></td>
              <td><c:out value="${lot.categoryId}"/></td>
-             <td><c:out value="${lot.dateStart}"/></td>
-             <td><c:out value="${lot.dateEnd}"/></td>
+             <td><hp:formatDataTime locale="${sessionScope.locale}" value="${lot.dateStart}"/></td>
+             <td><hp:formatDataTime locale="${sessionScope.locale}" value="${lot.dateEnd}"/></td>
              <td>$<fmt:formatNumber maxFractionDigits = "0" value="${lot.startPrice}"/></td>
              <td><c:out value="${lot.seller}"/></td>
              <td style='width: 50px; text-align:center'>

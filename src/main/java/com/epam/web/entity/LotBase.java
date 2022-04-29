@@ -6,6 +6,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -53,16 +54,6 @@ public class LotBase extends Entity {
         this.title = title;
     }
 
-//    public LotBase(long id, LotType type, Long categoryId, String title, BigDecimal startPrice, Timestamp dateStart, Timestamp dateEnd) {
-//        this.id = id;
-//        this.type = type;
-//        this.categoryId = categoryId;
-//        this.dateStart = dateStart;
-//        this.dateEnd = dateEnd;
-//        this.startPrice = startPrice;
-//        this.title = title;
-//    }
-
     public LotBase(long id, Long categoryId, LotType type, String title, BigDecimal startPrice, LocalDateTime dateStart, LocalDateTime dateEnd, Long userId) {
         this.id = id;
         this.userId = userId;
@@ -72,5 +63,42 @@ public class LotBase extends Entity {
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
         this.title = title;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LotBase)) return false;
+        LotBase lotBase = (LotBase) o;
+        return Objects.equals(id, lotBase.id)
+                && type == lotBase.type
+                && Objects.equals(categoryId, lotBase.categoryId)
+                && Objects.equals(dateStart, lotBase.dateStart)
+                && Objects.equals(dateEnd, lotBase.dateEnd)
+                && Objects.equals(duration, lotBase.duration)
+                && Objects.equals(startPrice, lotBase.startPrice)
+                && Objects.equals(userId, lotBase.userId)
+                && Objects.equals(isPaid, lotBase.isPaid)
+                && Objects.equals(title, lotBase.title)
+                && Objects.equals(seller, lotBase.seller);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, type, categoryId, dateStart, dateEnd, duration, startPrice, status, userId, isPaid, title, seller);
+    }
+
+    @Override
+    public String toString() {
+        return "LotBase{" +
+                "id=" + id +
+                ", categoryId=" + categoryId +
+                ", dateStart=" + dateStart +
+                ", dateEnd=" + dateEnd +
+                ", duration=" + duration +
+                ", startPrice=" + startPrice +
+                ", userId=" + userId +
+                ", isPaid=" + isPaid +
+                '}';
     }
 }

@@ -3,6 +3,8 @@ package com.epam.web.entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 public class User extends Entity {
@@ -39,4 +41,32 @@ public class User extends Entity {
         this.isBlocked = isBlocked;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id)
+                && Objects.equals(firstName, user.firstName)
+                && Objects.equals(lastName, user.lastName)
+                && Objects.equals(login, user.login)
+                && Objects.equals(password, user.password)
+                && Objects.equals(isAdmin, user.isAdmin);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, login, isAdmin);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", login='" + login + '\'' +
+                ", isAdmin=" + isAdmin +
+                '}';
+    }
 }

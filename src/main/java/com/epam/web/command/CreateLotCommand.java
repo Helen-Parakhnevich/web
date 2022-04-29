@@ -4,6 +4,7 @@ import com.epam.web.entity.LotBase;
 import com.epam.web.entity.LotType;
 import com.epam.web.exception.ServiceException;
 import com.epam.web.service.LotServiceImpl;
+import com.epam.web.validatior.LotValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,9 +19,11 @@ public class CreateLotCommand implements Command {
     private static final String ERROR_PAGE = "/jsp/error-page.jsp";
 
     private final LotServiceImpl service;
+    private final LotValidator validator;
 
-    public CreateLotCommand(LotServiceImpl service) {
+    public CreateLotCommand(LotServiceImpl service, LotValidator validator) {
         this.service = service;
+        this.validator = validator;
     }
 
     @Override
@@ -43,6 +46,10 @@ public class CreateLotCommand implements Command {
         }
 
         LotBase newLot = new LotBase(0L, categoryId, type, title, startPrice, dateStart, dateEnd, userId);
+
+        if (!validator.isDataLotValid(newLot)) {
+            throw new ServiceException("Data for room creating is invalid");
+        }
 
         if (service.create(newLot)) {
             if (userIsAdmin) {

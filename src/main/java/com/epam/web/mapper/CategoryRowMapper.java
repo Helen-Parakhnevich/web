@@ -13,8 +13,11 @@ public class CategoryRowMapper implements RowMapper {
 
         Long id = resultSet.getLong(Category.ID);
         String name = resultSet.getString(Category.NAME);
+        String en = resultSet.getString(Category.EN);
+        String be = resultSet.getString(Category.BE);
+        String ru = resultSet.getString(Category.RU);
 
-        return new Category(id, name);
+        return new Category(id, name, en, be, ru);
 
     }
 }

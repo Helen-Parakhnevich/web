@@ -6,26 +6,26 @@ import com.epam.web.service.LotServiceImpl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ApproveLotCommand implements Command {
+public class PayLot implements Command{
 
     private static final String ERROR_PAGE = "/jsp/error-page.jsp";
 
     private final LotServiceImpl service;
 
-    public ApproveLotCommand(LotServiceImpl service) {
+    public PayLot(LotServiceImpl service) {
         this.service = service;
     }
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
-        Long lotId = Long.parseLong(req.getParameter("lotId"));
+        long lotId = Long.parseLong(req.getParameter("lotId"));
 
         CommandResult result;
 
-        if (service.approveLot(lotId)) {
-            result = CommandResult.redirect(req.getContextPath() + "/controller?command=all_request");
+        if (service.payLot(lotId)) {
+            result = CommandResult.redirect(req.getContextPath() + "/controller?command=waiting_for_payment");
         } else {
-            req.setAttribute("errorMessage", "error.approve-lot");
+            req.setAttribute("errorMessage", "error.delete-lot");
             result = CommandResult.forward(ERROR_PAGE);
         }
         return result;

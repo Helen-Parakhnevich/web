@@ -84,7 +84,6 @@
            </div>
            <div>
               <button class="btn-create" type="submit"><fmt:message key="save" /></button>
-              <button class="btn-cancel" type="button"><fmt:message key="cancel" /></button>
            </div>
         </form>
       </div>

@@ -72,19 +72,27 @@ public class LotDaoImpl extends AbstractDao<Lot> implements LotDao {
             "ON users.id=bids.user_id" ;
 
     private static final String CONDITION_BY_ID = "WHERE lots.id =?";
+    private static final String CONDITION_NOT_DELETED = "WHERE lots.is_deleted='0'";
+    private static final String CONDITION_AND_NOT_DELETED = " AND lots.is_deleted='0'";
     private static final String CONDITION_BY_TYPE_BY_STATUS_BY_CATEGORY = "WHERE lots.date_start <= curdate() " +
                                 "AND lots.date_end >= curdate() AND lots.type = ? AND lots.status = ?  AND category_id = ?";
     private static final String CONDITION_BY_TYPE_BY_STATUS = "WHERE lots.date_start <= curdate() " +
                                 "AND lots.date_end >= curdate() AND lots.type = ? AND lots.status = ?";
+    private static final String CONDITION_ENDED_UNPAID_BY_TYPE = "WHERE lots.date_end <= curdate() AND lots.is_paid='0'" +
+                                "AND lots.type = ? AND lots.status = 'current'";
+    private static final String CONDITION_BY_USER = " WHERE users.id =?";
 
     private static final String GET_LOT_BY_ID_WITH_BID =
-            GET_LOT_WITH_MAX_BID_PART_1 + CONDITION_BY_ID + GET_LOT_WITH_MAX_BID_PART_2;
+                                GET_LOT_WITH_MAX_BID_PART_1 + CONDITION_BY_ID + GET_LOT_WITH_MAX_BID_PART_2;
 
-    private static final String GET_CURRENT_WITH_MAX_BID_LOT_BY_TYPE_BY_STATUS_BY_CATEGORY =
-            GET_LOT_WITH_MAX_BID_PART_1 + CONDITION_BY_TYPE_BY_STATUS_BY_CATEGORY + GET_LOT_WITH_MAX_BID_PART_2;
+    private static final String GET_CURRENT_WITH_MAX_BID_LOT_BY_TYPE_BY_STATUS_BY_CATEGORY = GET_LOT_WITH_MAX_BID_PART_1 +
+                                CONDITION_BY_TYPE_BY_STATUS_BY_CATEGORY + CONDITION_AND_NOT_DELETED + GET_LOT_WITH_MAX_BID_PART_2;
 
-    private static final String GET_CURRENT_WITH_MAX_BID_LOT_BY_TYPE_BY_STATUS =
-            GET_LOT_WITH_MAX_BID_PART_1 + CONDITION_BY_TYPE_BY_STATUS + GET_LOT_WITH_MAX_BID_PART_2;
+    private static final String GET_CURRENT_WITH_MAX_BID_LOT_BY_TYPE_BY_STATUS = GET_LOT_WITH_MAX_BID_PART_1 +
+                                CONDITION_BY_TYPE_BY_STATUS + CONDITION_AND_NOT_DELETED + GET_LOT_WITH_MAX_BID_PART_2;
+
+    private static final String GET_ENDED_BY_WIN_USER_ID =  GET_LOT_WITH_MAX_BID_PART_1 +
+                                CONDITION_ENDED_UNPAID_BY_TYPE + GET_LOT_WITH_MAX_BID_PART_2 + CONDITION_BY_USER;
 
     public LotDaoImpl(ProxyConnection connection) {
         super(connection, new LotRowMapper(), TABLE);
@@ -112,8 +120,8 @@ public class LotDaoImpl extends AbstractDao<Lot> implements LotDao {
     }
 
     @Override
-    public List<Lot> getSold(Category category) throws DaoException {
-        throw new UnsupportedOperationException("Not supported yet");
+    public List<Lot> getEndedDirectUnpaid(Long userId) throws DaoException {
+        return executeQuery(GET_ENDED_BY_WIN_USER_ID, new LotRowMapper(), LotType.DIRECT.getTitle(), userId);
     }
 
     @Override

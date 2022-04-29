@@ -35,6 +35,7 @@ public class LotBaseDaoImpl extends AbstractDao<LotBase> implements LotBaseDao {
     private static final String APPROVE_LOT = "UPDATE lot SET status='CURRENT' WHERE lot.id = ?";
     private static final String UPDATE_LOT_BY_ID = "UPDATE lot set category_id=?, type=?, title=?, start_price=?, date_start=?, date_end=? "
             + "where lot.id=?";
+    private static final String PAY_LOT = "UPDATE lot SET status='SOLD', is_paid='1' WHERE lot.id = ?";
 
     public LotBaseDaoImpl(ProxyConnection connection) {
         super(connection, new LotBaseRowMapper(), TABLE);
@@ -59,16 +60,21 @@ public class LotBaseDaoImpl extends AbstractDao<LotBase> implements LotBaseDao {
     }
 
     @Override
-    public boolean approveLot(long id) throws DaoException{
+    public boolean approveLot(Long id) throws DaoException{
         executeQueryNoResult(APPROVE_LOT, id);
         return true;
     }
 
     @Override
-    // test
     public boolean updateLot(LotBase lot) throws DaoException {
         executeQueryNoResult(UPDATE_LOT_BY_ID, lot.getCategoryId(), lot.getType().getTitle(), lot.getTitle(), lot.getStartPrice(),
                               lot.getDateStart(), lot.getDateEnd(), lot.getId());
+        return true;
+    }
+
+    @Override
+    public boolean payLot(Long id) throws DaoException {
+        executeQueryNoResult(PAY_LOT, id);
         return true;
     }
 

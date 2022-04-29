@@ -11,43 +11,50 @@
                 <div class="dropdown-menu">
                     <ul>
                         <li>
-                            <a href="${pageContext.request.contextPath}/controller?command=direct_lot_by_category">Direct auctions</a>
+                            <a href="${pageContext.request.contextPath}/controller?command=direct_lot_by_category"><fmt:message key="menu.direct-auctions"/></a>
                          </li>
-                        <li><a href="${pageContext.request.contextPath}/controller?command=reverse_lot">Revers auctions</a></li>
-                        <%--<li><a href="#">Planned lots</a></li>--%>
-                        <li><a href="#">Recently sold</a></li>
+                        <li><a href="${pageContext.request.contextPath}/controller?command=reverse_lot"><fmt:message key="menu.revers-auctions"/></a></li>
+                        <%--<li><a href="#">Planned lots</a></li>
+                        <li><a href="#"><fmt:message key="menu.recently-sold"/></a></li>--%>
                     </ul>
                 </div>
             </div>
-            <div class="dropdown"><a href="${pageContext.request.contextPath}/controller?command=direct_lot_by_category">BUY</a>
+            <div class="dropdown"><a href="${pageContext.request.contextPath}/controller?command=direct_lot_by_category"><fmt:message key="menu.buy"/></a>
                 <div class="dropdown-menu">
                     <ul>
                     <c:forEach items="${sessionScope.categories}" var="category">
                     <form class="category" method="post" action="${pageContext.request.contextPath}/controller?command=direct_lot_by_category">
                           <input  name="categoryId" value="${category.id}" type="hidden">
-                          <button class="button" id="button${loop.index}" onclick="sessionStorage.setItem('currentCategoryId', ${category.id})" type="submit" >${category.name}</button>
+                          <button class="button" id="button${loop.index}" onclick="sessionStorage.setItem('currentCategoryId', ${category.id})" type="submit" >
+                            <c:choose>
+                              <c:when test="${sessionScope.language=='en'}">${category.en}</c:when>
+                              <c:when test="${sessionScope.language=='be'}">${category.be}</c:when>
+                              <c:when test="${sessionScope.language=='ru'}">${category.ru}</c:when>
+                              <c:otherwise>${category.name}</c:otherwise>
+                             </c:choose>
+                          </button>
                      </form>
                     </c:forEach>
                     </ul>
                 </div>
             </div>
-            <div class="dropdown"><a>SELL</a>
+            <div class="dropdown"><a><fmt:message key="menu.sell"/></a>
                 <div class="dropdown-menu">
                     <ul>
-                        <li><a href="${pageContext.request.contextPath}/controller?command=page_new_lot">Request for sale</a></li>
-                        <li><a href="#">Sell at reverse auction</a></li>
+                        <li><a href="${pageContext.request.contextPath}/controller?command=page_new_lot"><fmt:message key="menu.request-for-sale"/></a></li>
+                        <li><a href="${pageContext.request.contextPath}/controller?command=reverse_lot"><fmt:message key="menu.sell-at-reverse-auction"/></a></li>
                     </ul>
                 </div>
             </div>
-            <div class="dropdown"><a>MY DASHBOARD</a>
+            <div class="dropdown"><a><fmt:message key="menu.my-dashboard"/>
                 <div class="dropdown-menu">
                     <ul>
-                        <li><a href="#">Waiting for payment</a></li>
-                        <li><a href="#">My lots</a></li>
-                        <li><a href="#">My bids</a></li>
-                        <li><a href="#">My watchlist</a></li>
-                        <li><a href="#">My purchases</a></li>
-                        <li><a href="#">My sales</a></li>
+                        <li><a href="${pageContext.request.contextPath}/controller?command=waiting_for_payment"><fmt:message key="menu.waiting-for-payment"/></a></li>
+                        <li><a href="#"><fmt:message key="menu.my-lots"/></a></li>
+                        <li><a href="#"><fmt:message key="menu.my-bids"/></a></li>
+                        <li><a href="#"><fmt:message key="menu.my-watchlist"/></a></li>
+                        <li><a href="#"><fmt:message key="menu.my-purchases"/></a></li>
+                        <li><a href="#"><fmt:message key="menu.my-sales"/></a></li>
                     </ul>
                 </div>
             </div>

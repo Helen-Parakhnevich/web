@@ -52,7 +52,7 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
-    public boolean deleteLot(long id) throws ServiceException {
+    public boolean deleteLot(Long id) throws ServiceException {
         try (DaoHelper daoHelper= daoHelperFactory.create()) {
             daoHelper.startTransaction();
             LotBaseDao lotDao = daoHelper.createLotBaseDao();
@@ -66,7 +66,7 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
-    public boolean approveLot(long id) throws ServiceException {
+    public boolean approveLot(Long id) throws ServiceException {
         try (DaoHelper daoHelper= daoHelperFactory.create()) {
             daoHelper.startTransaction();
             LotBaseDao lotDao = daoHelper.createLotBaseDao();
@@ -87,6 +87,20 @@ public class LotServiceImpl implements LotService {
             boolean successUpdate = lotDao.updateLot(lot);
             daoHelper.endTransaction();
             return successUpdate;
+        } catch (DaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public boolean payLot(Long id) throws ServiceException {
+        try (DaoHelper daoHelper= daoHelperFactory.create()) {
+            daoHelper.startTransaction();
+            LotBaseDao lotDao = daoHelper.createLotBaseDao();
+            boolean successApprove = lotDao.payLot(id);
+            daoHelper.endTransaction();
+            return successApprove;
         } catch (DaoException e) {
             LOGGER.error(e.getMessage());
             throw new ServiceException(e);
@@ -118,7 +132,7 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
-    public List<Lot> getDirectByCategory(long id) throws ServiceException {
+    public List<Lot> getDirectByCategory(Long id) throws ServiceException {
         try (DaoHelper daoHelper= daoHelperFactory.create()) {
             LotDao lotDao = daoHelper.createLotDao();
             List<Lot> directLot= lotDao.getDirectByCategory(id);
@@ -130,7 +144,7 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
-    public Optional<Lot> getById(long id) throws ServiceException {
+    public Optional<Lot> getById(Long id) throws ServiceException {
         try (DaoHelper daoHelper= daoHelperFactory.create()) {
             LotDao lotDao = daoHelper.createLotDao();
             Optional<Lot> lot = ((LotDaoImpl) lotDao).getById(id);
@@ -147,6 +161,18 @@ public class LotServiceImpl implements LotService {
             LotDao lotDao = daoHelper.createLotDao();
             Optional<Lot> lot = lotDao.getByIdWithBid(id);
             return lot;
+        } catch (DaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<Lot> getEndedDirectUnpaid(Long userId) throws ServiceException {
+        try (DaoHelper daoHelper= daoHelperFactory.create()) {
+            LotDao lotDao = daoHelper.createLotDao();
+            List<Lot> lots = lotDao.getEndedDirectUnpaid(userId);
+            return lots;
         } catch (DaoException e) {
             LOGGER.error(e.getMessage());
             throw new ServiceException(e);
